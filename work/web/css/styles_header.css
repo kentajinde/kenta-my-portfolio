@@ -1,0 +1,24 @@
+/* common screen */
+.nav-pc{
+  display: none;
+}
+
+/* medium screen */
+@media (min-width: 768px){
+  .nav-mobile{
+    display: none;
+  }
+  .nav-pc{
+    display: block;
+  }
+  .navbar .nav-item{
+    margin-right: 20px;
+    font-weight: bold;
+  }
+  .navbar .nav-link{
+    color: inherit;
+  }
+  .navbar .nav-link:hover{
+    border-bottom: solid 2px  #656565;
+  }
+}

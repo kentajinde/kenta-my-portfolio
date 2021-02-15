@@ -1,0 +1,17 @@
+@import url("styles_home.css");
+@import url("styles_signup.css");
+
+@media (min-width: 768px){
+  #root h1{
+    margin-left: 115px;
+  }
+  #root input:not([type="submit"]){
+    margin-left: 135px;
+  }
+  #root label:nth-of-type(2) input{
+    margin-left: 155px;
+  }
+  #root a{
+    margin-left: 65px;
+  }
+}

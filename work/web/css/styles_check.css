@@ -1,0 +1,154 @@
+/* common screen */
+html{
+  height: 100%;
+}
+body{
+  background: url(../img/background-lg.jpg);
+  height: 100%;
+  color: #484848 !important;
+}
+.confirm{
+  height: 100%;
+  padding: 30px 35px 0;
+  position: relative;
+}
+.confirm h1{
+  font-size: 30px;
+  font-weight: bold;
+}
+.confirm dl{
+  margin: 20px 0 30px;
+}
+.confirm dt{
+  margin: 15px 0;
+  border-left: solid 6px #c50000;
+  padding-left: 4px;
+}
+.confirm dd{
+  font-size: 18px;
+}
+#image{
+  margin: 20px 0 20px;
+}
+.image{
+  width:150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-top: 20px;
+}
+input[type="file"]{
+  display: none;
+}
+.edit-btn{
+  background: #7d9bc7ba;
+  border-radius: 10px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  width: max-content;
+  margin: auto;
+  padding: 8px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+.error{
+  font-size: 12px;
+  color: red;
+  margin: 0;
+  margin-top: 10px;
+}
+.whether{
+  background: white;
+  border-radius: 4px;
+  width: 300px;
+  padding: 12px 20px;
+  font-size: 17px;
+  position: relative;
+}
+.whether span{
+  font-weight: bold;
+  user-select: none;
+}
+.whether a{
+  color: inherit;
+  font-weight: bold;
+  margin-right: 9px;
+}
+.whether a:hover{
+  color: inherit;
+}
+.whether input[type="submit"]{
+  background: transparent;
+  font-weight: bold;
+  display: inline-block;
+  border: none;
+}
+.whether input[type="submit"]:hover{
+  text-decoration: underline;
+}
+.pen{
+  position: absolute;
+  width: 90px;
+  height: 100px;
+  top: -130px;
+  left: 265px;
+  pointer-events: none;
+}
+.anime1{
+  top: -83px;
+  left: 90px;
+  transition: 0.3s ease-in-out;
+}
+.anime2{
+  top: -83px;
+  left: 265px;
+  transition: 0.3s ease-in-out;
+}
+footer{
+  background: #000;
+  padding: 10px 0;
+}
+footer p{
+  margin: 0;
+  color: rgb(161, 161, 161);
+  text-align: center;
+}
+.owl{
+  display: none;
+}
+
+/* medium screen */
+@media (min-width: 768px){
+  html{
+    height: auto;
+  }
+  .confirm{
+    padding: 30px 50px;
+  }
+}
+
+/* large screen */
+@media (min-width: 1100px){
+  .confirm{
+    padding: 30px 150px;
+    position: relative;
+  }
+  .confirm h1{
+    font-size: 35px;
+    margin-bottom: 40px;
+  }
+  .confirm dt{
+    font-size: 18px;
+  }
+  .confirm dd{
+    font-size: 20px;
+  }
+  .owl{
+    display: block;
+    position: absolute;
+    top: 40px;
+    right: 185px;
+    width: 420px;
+  }
+}

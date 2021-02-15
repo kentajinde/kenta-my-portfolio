@@ -1,0 +1,38 @@
+version: '3'
+networks:
+    base:
+        ipam:
+            driver: default
+            config:
+            - subnet: 172.30.0.0/24
+services:
+    db:
+        build: ./files/mysql
+        networks:
+            base:
+                ipv4_address: '172.30.0.10'
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./files/mysql/db:/var/lib/mysql
+            - ./files/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+        # user: mysql
+        user: "1000:50"
+        environment:
+            MYSQL_DATABASE: base
+            MYSQL_USER: base
+            MYSQL_PASSWORD: base123
+            MYSQL_ROOT_PASSWORD: root
+    web:
+        build: ./files/php
+        depends_on:
+            - db
+        networks:
+            base:
+                ipv4_address: '172.30.0.100'
+        ports:
+            - "80:80"
+        volumes:
+            - ../work:/var/www/html
+        extra_hosts:
+            - "dev_host:172.30.0.1"

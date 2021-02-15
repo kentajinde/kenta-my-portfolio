@@ -1,0 +1,98 @@
+@import url("styles_posts_list.css");
+@import url("styles_header.css");
+
+/* common screen */
+.tab > ul li.active{
+  background: #7da380;
+}
+.posts{
+  position: relative;
+}
+.square{
+  background: #f0a13ec7;
+  display: block;
+  margin-top: -20px;
+  margin-left: -10px;
+  margin-bottom: 20px;
+  width: 100px;
+  height: 32px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
+  border-top-left-radius: 8px;
+}
+.triangle{
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 100px;
+  border: 16px solid transparent;
+  border-top-color: #f0a13ec7;
+  border-left-color: #f0a13ec7;
+}
+.member-pro{
+  position: relative;
+}
+.detail{
+  text-align: start;
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  padding-right: 130px;
+}
+.heart-box{
+  position: relative;
+}
+.heart-box i{
+  color: red;
+  font-size: 30px;
+  user-select: none;
+  line-height: unset;
+}
+.heart-box span{
+  position: absolute;
+  top: 10px;
+  left: 42px;
+  font-weight: bold;
+}
+
+/* medium screen */
+@media (min-width: 768px){
+  .detail{
+    flex: 1;
+    padding-top: 8px;
+    margin-bottom: 25px;
+    justify-content: unset;
+  }
+  .member-pro p{
+    margin: 0;
+    margin-right: 120px;
+  }
+  .heart-box i{
+    font-size: 35px;
+  }
+  .heart-box span{
+    font-size: 18px;
+    left: 50px;
+    top: 13px;
+  }
+  .square{
+    margin-left: -20px;
+    width: 110px;
+    height: 40px;
+    font-size: 19px;
+  }
+  .triangle{
+    left: 110px;
+    border-width: 20px;
+  }
+}
+
+/* large screen */
+@media (min-width: 1100px){
+  .square{
+    margin-left: -50px;
+    margin-top: -25px;
+  }
+}
