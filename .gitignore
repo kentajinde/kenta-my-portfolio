@@ -1,4 +1,4 @@
 !.gitignore
 /docker/files/mysql/db/*
 !/docker/files/mysql/db/.gitkeep
-/docker
+docker
