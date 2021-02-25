@@ -14,8 +14,10 @@ $s3 = new S3Client([
   "region" => "us-east-2",
 ]);
 
-$image = bin2hex(random_bytes(32)) . $_FILES["image"]["name"];
-$fp = fopen($_FILES["image"]["tmp_name"], "rb");
+if($_FILES){
+  $image = bin2hex(random_bytes(32)) . $_FILES["image"]["name"];
+  $fp = fopen($_FILES["image"]["tmp_name"], "rb");
+}
 
 try{
   $result = $s3->putObject([
@@ -34,7 +36,6 @@ try{
 <head>
   <meta charset="UTF-8" />
   <title>test</title>
-  <link rel="stylesheet" href="css/styles_test.css" />
 </head>
 <body>
   <img src="<?= $result["ObjectURL"]; ?>">
