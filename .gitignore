@@ -1,4 +1,6 @@
 !.gitignore
 /docker/files/mysql/db/*
 !/docker/files/mysql/db/.gitkeep
-docker
+/vendor/
+composer.json
+composer.lock

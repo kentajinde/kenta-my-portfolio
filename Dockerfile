@@ -8,4 +8,6 @@ RUN     usermod -u 1000 www-data \
     &&  docker-php-ext-enable xdebug \
     &&  docker-php-ext-install pdo_mysql mysqli mbstring zip \
     &&  apt-get clean
+COPY    --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY    . .
+CMD     ["./startup.sh"]
