@@ -10,4 +10,5 @@ RUN     usermod -u 1000 www-data \
     &&  apt-get clean
 COPY    --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY    . .
-CMD     ["./startup.sh"]
+# CMD     ["./startup.sh"]
+CMD     ["composer", "require", "aws/aws-sdk-php"]
