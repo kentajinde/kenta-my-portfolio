@@ -1,1 +1,0 @@
-release: composer require aws/aws-sdk-php
