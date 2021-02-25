@@ -10,5 +10,4 @@ RUN     usermod -u 1000 www-data \
     &&  apt-get clean
 COPY    --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY    . .
-VOLUME  ${pwd}:"/var/www/html"
 CMD     ["./startup.sh"]
