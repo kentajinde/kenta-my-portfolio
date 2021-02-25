@@ -6,10 +6,12 @@ use Aws\Exception\AwsException;
 
 
 $s3 = new S3Client([
-  "credentials" => [
-    "key" => "AKIAWF3FAJZDEJ7YWLGX",
-    "secret" => "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",
-  ],
+
+  // 開発環境
+  // "credentials" => [
+  //   "key" => "AKIAWF3FAJZDEJ7YWLGX",
+  //   "secret" => "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",
+  // ],
   "version" => "latest",
   "region" => "us-east-2",
 ]);
