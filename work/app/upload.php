@@ -1,5 +1,6 @@
 <?php
-require '/vendor/autoload.php';
+require '/var/www/html/vendor/autoload.php';
+// require 'secret.php';
 
 use Aws\S3\S3Client;
 use Aws\Exception\AwsException;
@@ -7,6 +8,16 @@ use Aws\Exception\AwsException;
 
 $s3 = new S3Client([
 
+  // 開発環境
+  // "credentials" =>[
+  //   "key" => $key,
+  //   "secret" => $secret,
+  // ],
+
+  "credentials" =>[
+    'key' => env('AWS_ACCESS_KEY_ID'),
+    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+  ],
   "version" => "latest",
   "region" => "us-east-2",
 ]);
@@ -27,6 +38,10 @@ try{
 }
 
 ?>
+
+<pre>
+  <?= $secret; ?>
+</pre>
 
 <!DOCTYPE html>
 <html lang="ja">
