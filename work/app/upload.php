@@ -1,5 +1,5 @@
 <?php
-require '/var/www/html/vendor/autoload.php';
+// require '/var/www/html/vendor/autoload.php';
 // require 'secret.php';
 
 // use Aws\S3\S3Client;
