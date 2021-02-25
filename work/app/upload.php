@@ -40,7 +40,7 @@ require '/var/www/html/vendor/autoload.php';
   <title>test</title>
 </head>
 <body>
-  <!-- <img src="<?= $result["ObjectURL"]; ?>"> -->
+  <img src="<?= $result["ObjectURL"]; ?>">
   <form action="" method="post" enctype="multipart/form-data">
     <input type="hidden" name="action">
     <input type="file" size="35" accept="image/*" name="image">
