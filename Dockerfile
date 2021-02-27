@@ -7,7 +7,8 @@ RUN     usermod -u 1000 www-data \
     &&  apt-get install -y zlib1g-dev \
     &&  docker-php-ext-enable xdebug \
     &&  docker-php-ext-install pdo_mysql mysqli mbstring zip \
-    &&  apt-get clean
+    &&  apt-get clean \
+    &&  rm -rf /etc/apache2
 COPY    --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY    . .
 # CMD     sh -c "composer require aws/aws-sdk-php && apache2 -D FOREGROUND"
