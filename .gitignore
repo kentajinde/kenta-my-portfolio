@@ -2,3 +2,4 @@
 /docker/files/mysql/db/*
 !/docker/files/mysql/db/.gitkeep
 secret.php
+/docker/
