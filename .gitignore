@@ -1,5 +1,4 @@
 !.gitignore
 /docker/files/mysql/db/*
 !/docker/files/mysql/db/.gitkeep
-/vendor/
 secret.php
