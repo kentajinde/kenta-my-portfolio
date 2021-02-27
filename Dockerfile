@@ -10,6 +10,7 @@ RUN     usermod -u 1000 www-data \
     &&  apt-get clean
 COPY    --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY    . .
-CMD     sh -c "composer require aws/aws-sdk-php && apache2-foreground"
+CMD     sh -c "composer require aws/aws-sdk-php && apache2 -D FOREGROUND"
+# CMD     sh -c "composer require aws/aws-sdk-php && apache2-foreground"
 # CMD     ["./startup.sh"]
 # CMD     ["composer", "require", "aws/aws-sdk-php"]
