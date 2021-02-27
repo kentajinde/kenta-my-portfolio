@@ -11,4 +11,4 @@ RUN     usermod -u 1000 www-data \
 COPY    --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY    . .
 # CMD     ["./startup.sh"]
-# CMD     ["apache2-foreground"]
+CMD     ["apache2-foreground"]
