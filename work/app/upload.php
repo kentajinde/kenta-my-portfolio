@@ -32,6 +32,7 @@ try{
     "Bucket" => "kenta-my-portfolio",
     "Key" => "member-img/" . $image,
     "body" => $fp,
+    "ACL" => "public-read"
   ]);
 }catch(S3Exeption $e){
   echo $e->getMessage();
