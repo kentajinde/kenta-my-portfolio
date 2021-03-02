@@ -1,6 +1,7 @@
 <?php
 
 try{
+  
   // 開発環境
   // $pdo = new PDO(
   //   "mysql:host=db;dbname=base;charset=utf8mb4",
@@ -22,6 +23,7 @@ try{
       PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]
   );
+
 }catch(PDOException $e){
   echo  $e->getMessage();
   exit();

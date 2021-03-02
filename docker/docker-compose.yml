@@ -33,6 +33,6 @@ services:
         ports:
             - "80:80"
         volumes:
-            - ../work:/var/www/html
+            - ../:/var/www/html
         extra_hosts:
             - "dev_host:172.30.0.1"

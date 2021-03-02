@@ -1,61 +1,135 @@
 <?php
-require '/var/www/html/vendor/autoload.php';
-// require 'secret.php';
+
+require("/var/www/html/vendor/autoload.php");
+
+// 開発環境
+// require("secret.php");
 
 use Aws\S3\S3Client;
 use Aws\Exception\AwsException;
+
+//ON
+$s3Api = "true";
 
 
 $s3 = new S3Client([
 
   // 開発環境
-  "credentials" =>[
-    "key" => $key,
-    "secret" => $secret,
-  ],
-
+  // "credentials" =>[
+  //   "key" => $key,
+  //   "secret" => $secret,
+  // ],
+  
+  // 本番環境
   "credentials" =>[
     'key' => getenv('AWS_ACCESS_KEY_ID'),
     'secret' => getenv('AWS_SECRET_ACCESS_KEY'),
   ],
+
   "version" => "latest",
   "region" => "us-east-2",
 ]);
 
-if($_FILES){
-  $image = bin2hex(random_bytes(32)) . $_FILES["image"]["name"];
-  $fp = fopen($_FILES["image"]["tmp_name"], "rb");
+
+//member-imgフォルダ アップロード
+function put_mem($name, $tmp_name){
+  global $s3;
+  try{
+    $s3->putObject([
+      "ACL" => "public-read",
+      "Bucket" => "kenta-my-portfolio",
+      "Key" => "member-img/" . $name,
+      "SourceFile" => $tmp_name,
+    ]);
+  }catch(S3Exeption $e){
+    echo $e->getMessage();
+  }
 }
 
-try{
-  $result = $s3->putObject([
+//post-imgフォルダ アップロード
+function put_pos($name, $tmp_name){
+  global $s3;
+  try{
+    $s3->putObject([
+      "ACL" => "public-read",
+      "Bucket" => "kenta-my-portfolio",
+      "Key" => "post-img/" . $name,
+      "SourceFile" => $tmp_name,
+    ]);
+  }catch(S3Exeption $e){
+    echo $e->getMessage();
+  }
+}
+
+//library-imgフォルダ アップロード
+function put_lib($name, $tmp_name){
+  global $s3;
+  try{
+    $s3->putObject([
+      "ACL" => "public-read",
+      "Bucket" => "kenta-my-portfolio",
+      "Key" => "library-img/" . $name,
+      "SourceFile" => $tmp_name,
+    ]);
+  }catch(S3Exeption $e){
+    echo $e->getMessage();
+  }
+}
+
+
+//member-imgフォルダ ダウンロード
+function get_mem($name){
+  global $s3;
+  return $s3->getObjectUrl("kenta-my-portfolio", "member-img/" . $name);
+}
+
+//post-imgフォルダ ダウンロード
+function get_pos($name){
+  global $s3;
+  return $s3->getObjectUrl("kenta-my-portfolio", "post-img/" . $name);
+}
+
+//library-imgフォルダ ダウンロード
+function get_lib($name){
+  global $s3;
+  return $s3->getObjectUrl("kenta-my-portfolio", "library-img/" . $name);
+}
+
+
+//member-imgフォルダ デリート
+function del_mem($name){
+  global $s3;
+  $s3->deleteObject([
     "Bucket" => "kenta-my-portfolio",
-    "Key" => "member-img/" . $image,
-    "body" => $fp,
-    "ACL" => "public-read"
+    "Key" => "member-img/" . $name
   ]);
-}catch(S3Exeption $e){
-  echo $e->getMessage();
 }
 
-?>
+//post-imgフォルダ デリート
+function del_pos($name){
+  global $s3;
+  $s3->deleteObject([
+    "Bucket" => "kenta-my-portfolio",
+    "Key" => "post-img/" . $name
+  ]);
+}
 
-<pre>
-  <?= $secret; ?>
-</pre>
+//library-imgフォルダ デリート
+function del_lib($name){
+  global $s3;
+  $s3->deleteObject([
+    "Bucket" => "kenta-my-portfolio",
+    "Key" => "library-img/" . $name
+  ]);
+}
 
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <title>test</title>
-</head>
-<body>
-  <img src="<?= $result["ObjectURL"]; ?>">
-  <form action="" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="action">
-    <input type="file" size="35" accept="image/*" name="image">
-    <input type="submit" value="送信">
-  </form>
-</body>
-</html>
+// from post-imgフォルダ to library-imgフォルダ コピー
+function cop_pos($name, $src){
+  global $s3;
+  $s3->copyObject([
+    "ACL" => "public-read",
+    "Bucket" => "kenta-my-portfolio",
+    "Key" => "library-img/" . $name,
+    "CopySource" => "kenta-my-portfolio/post-img/" . $src,
+  ]);
+}

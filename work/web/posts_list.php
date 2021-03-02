@@ -2,10 +2,13 @@
 
 require("../app/functions.php");
 require("../app/dbconnect.php");
+require("../app/upload.php");
 
 session_start();
 
-// メンバー情報、投稿情報、投稿内容(連想多次元配列)
+
+// メンバー情報、投稿情報、投稿内容の配列
+
 // ビジネス
 $stmt = $pdo->query("SELECT * FROM posts WHERE category = 'busi' ORDER BY created DESC, member_id");
 $posts = $stmt->fetchAll();
@@ -19,6 +22,7 @@ foreach($posts as $post){
   $result["post"] = $post;
   $busi[] = $result;
 }
+
 // 自己啓発
 $stmt = $pdo->query("SELECT * FROM posts WHERE category = 'enlight' ORDER BY created DESC, member_id");
 $posts = $stmt->fetchAll();
@@ -32,6 +36,7 @@ foreach($posts as $post){
   $result["post"] = $post;
   $enlight[] = $result;
 }
+
 // 文芸
 $stmt = $pdo->query("SELECT * FROM posts WHERE category = 'lite' ORDER BY created DESC, member_id");
 $posts = $stmt->fetchAll();
@@ -45,6 +50,7 @@ foreach($posts as $post){
   $result["post"] = $post;
   $lite[] = $result;
 }
+
 // 趣味・実用
 $stmt = $pdo->query("SELECT * FROM posts WHERE category = 'plac' ORDER BY created DESC, member_id");
 $posts = $stmt->fetchAll();
@@ -58,6 +64,7 @@ foreach($posts as $post){
   $result["post"] = $post;
   $plac[] = $result;
 }
+
 // 漫画
 $stmt = $pdo->query("SELECT * FROM posts WHERE category = 'comic' ORDER BY created DESC, member_id");
 $posts = $stmt->fetchAll();
@@ -92,9 +99,6 @@ foreach($posts as $post){
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-
-  <!-- <pre><?= var_dump($busi[0]); ?></pre> -->
-
   <header class="nav-mobile">
     <a href="main.php">
       <img class="navbar-brand" src="img/logo.png" alt="logo">
@@ -148,7 +152,15 @@ foreach($posts as $post){
               <li class="posts">
                 <a href="view.php?id=<?= h($post["post"]["id"]); ?>">
                   <div class="member-pro">
-                    <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php if($post["member"]["picture"]): ?>
+                      <?php if($s3Api): ?>
+                        <img src="<?= h(get_mem($post["member"]["picture"])); ?>">
+                      <?php else: ?>
+                        <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                      <?php endif; ?>
+                    <?php else: ?>
+                      <img src="img/select_none.jpg">
+                    <?php endif; ?>
                     <p><?= h($post["member"]["name"]); ?>さん</p>
                   </div>
                   <div class="post-list">
@@ -156,7 +168,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank1">
                           <?php if($post["content"][0]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][0]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -176,7 +192,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank2">
                           <?php if($post["content"][1]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][1]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][1]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -196,7 +216,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank3">
                           <?php if($post["content"][2]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][2]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][2]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -236,7 +260,15 @@ foreach($posts as $post){
               <li class="posts">
                 <a href="view.php?id=<?= h($post["post"]["id"]); ?>">
                   <div class="member-pro">
-                    <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php if($post["member"]["picture"]): ?>
+                      <?php if($s3Api): ?>
+                        <img src="<?= h(get_mem($post["member"]["picture"])); ?>">
+                      <?php else: ?>
+                        <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                      <?php endif; ?>
+                    <?php else: ?>
+                      <img src="img/select_none.jpg">
+                    <?php endif; ?>
                     <p><?= h($post["member"]["name"]); ?>さん</p>
                   </div>
                   <div class="post-list">
@@ -244,7 +276,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank1">
                           <?php if($post["content"][0]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][0]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -264,7 +300,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank2">
                           <?php if($post["content"][1]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][1]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][1]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -284,7 +324,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank3">
                           <?php if($post["content"][2]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][2]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][2]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -324,7 +368,15 @@ foreach($posts as $post){
               <li class="posts">
                 <a href="view.php?id=<?= h($post["post"]["id"]); ?>">
                   <div class="member-pro">
-                    <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php if($post["member"]["picture"]): ?>
+                      <?php if($s3Api): ?>
+                        <img src="<?= h(get_mem($post["member"]["picture"])); ?>">
+                      <?php else: ?>
+                        <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                      <?php endif; ?>
+                    <?php else: ?>
+                      <img src="img/select_none.jpg">
+                    <?php endif; ?>
                     <p><?= h($post["member"]["name"]); ?>さん</p>
                   </div>
                   <div class="post-list">
@@ -332,7 +384,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank1">
                           <?php if($post["content"][0]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][0]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -352,7 +408,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank2">
                           <?php if($post["content"][1]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][1]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][1]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -372,7 +432,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank3">
                           <?php if($post["content"][2]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][2]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][2]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -412,7 +476,15 @@ foreach($posts as $post){
               <li class="posts">
                 <a href="view.php?id=<?= h($post["post"]["id"]); ?>">
                   <div class="member-pro">
-                    <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php if($post["member"]["picture"]): ?>
+                      <?php if($s3Api): ?>
+                        <img src="<?= h(get_mem($post["member"]["picture"])); ?>">
+                      <?php else: ?>
+                        <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                      <?php endif; ?>
+                    <?php else: ?>
+                      <img src="img/select_none.jpg">
+                    <?php endif; ?>
                     <p><?= h($post["member"]["name"]); ?>さん</p>
                   </div>
                   <div class="post-list">
@@ -420,7 +492,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank1">
                           <?php if($post["content"][0]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][0]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -440,7 +516,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank2">
                           <?php if($post["content"][1]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][1]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][1]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -460,7 +540,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank3">
                           <?php if($post["content"][2]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][2]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][2]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -500,7 +584,15 @@ foreach($posts as $post){
               <li class="posts">
                 <a href="view.php?id=<?= h($post["post"]["id"]); ?>">
                   <div class="member-pro">
-                    <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php if($post["member"]["picture"]): ?>
+                      <?php if($s3Api): ?>
+                        <img src="<?= h(get_mem($post["member"]["picture"])); ?>">
+                      <?php else: ?>
+                        <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                      <?php endif; ?>
+                    <?php else: ?>
+                      <img src="img/select_none.jpg">
+                    <?php endif; ?>
                     <p><?= h($post["member"]["name"]); ?>さん</p>
                   </div>
                   <div class="post-list">
@@ -508,7 +600,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank1">
                           <?php if($post["content"][0]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][0]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -528,7 +624,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank2">
                           <?php if($post["content"][1]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][1]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][1]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -548,7 +648,11 @@ foreach($posts as $post){
                       <div class="post">
                         <div class="post-img rank3">
                           <?php if($post["content"][2]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][2]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][2]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>

@@ -9,3 +9,5 @@ RUN     usermod -u 1000 www-data \
     &&  docker-php-ext-install pdo_mysql mysqli mbstring zip \
     &&  apt-get clean
 COPY    docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/
+COPY    --from=composer:latest /usr/bin/composer /usr/bin/composer
+CMD     sh -c "composer require aws/aws-sdk-php && apache2-foreground"

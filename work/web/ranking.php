@@ -2,6 +2,7 @@
 
 require("../app/functions.php");
 require("../app/dbconnect.php");
+require("../app/upload.php");
 
 session_start();
 
@@ -158,7 +159,15 @@ $counterComic = 0;
                   <span class="square">#<?= $counterBusi; ?></span>
                   <span class="triangle"></span>
                   <div class="member-pro">
-                    <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php if($post["member"]["picture"]): ?>
+                      <?php if($s3Api): ?>
+                        <img src="<?= h(get_mem($post["member"]["picture"])); ?>">
+                      <?php else: ?>
+                        <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                      <?php endif; ?>
+                    <?php else: ?>
+                      <img src="img/select_none.jpg">
+                    <?php endif; ?>
                     <div class="detail">
                       <p><?= h($post["member"]["name"]); ?>さん</p>
                       <div class="heart-box">
@@ -172,7 +181,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank1">
                           <?php if($post["content"][0]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][0]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -192,7 +205,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank2">
                           <?php if($post["content"][1]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][1]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][1]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -212,7 +229,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank3">
                           <?php if($post["content"][2]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][2]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][2]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -255,7 +276,15 @@ $counterComic = 0;
                   <span class="square">#<?= $counterEnlight; ?></span>
                   <span class="triangle"></span>
                   <div class="member-pro">
-                    <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php if($post["member"]["picture"]): ?>
+                      <?php if($s3Api): ?>
+                        <img src="<?= h(get_mem($post["member"]["picture"])); ?>">
+                      <?php else: ?>
+                        <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                      <?php endif; ?>
+                    <?php else: ?>
+                      <img src="img/select_none.jpg">
+                    <?php endif; ?>
                     <div class="detail">
                       <p><?= h($post["member"]["name"]); ?>さん</p>
                       <div class="heart-box">
@@ -269,7 +298,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank1">
                           <?php if($post["content"][0]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][0]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -289,7 +322,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank2">
                           <?php if($post["content"][1]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][1]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][1]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -309,7 +346,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank3">
                           <?php if($post["content"][2]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][2]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][2]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -352,7 +393,15 @@ $counterComic = 0;
                   <span class="square">#<?= $counterLite; ?></span>
                   <span class="triangle"></span>
                   <div class="member-pro">
-                    <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php if($post["member"]["picture"]): ?>
+                      <?php if($s3Api): ?>
+                        <img src="<?= h(get_mem($post["member"]["picture"])); ?>">
+                      <?php else: ?>
+                        <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                      <?php endif; ?>
+                    <?php else: ?>
+                      <img src="img/select_none.jpg">
+                    <?php endif; ?>
                     <div class="detail">
                       <p><?= h($post["member"]["name"]); ?>さん</p>
                       <div class="heart-box">
@@ -366,7 +415,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank1">
                           <?php if($post["content"][0]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][0]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -386,7 +439,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank2">
                           <?php if($post["content"][1]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][1]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][1]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -406,7 +463,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank3">
                           <?php if($post["content"][2]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][2]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][2]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -449,7 +510,15 @@ $counterComic = 0;
                   <span class="square">#<?= $counterPlac; ?></span>
                   <span class="triangle"></span>
                   <div class="member-pro">
-                    <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php if($post["member"]["picture"]): ?>
+                      <?php if($s3Api): ?>
+                        <img src="<?= h(get_mem($post["member"]["picture"])); ?>">
+                      <?php else: ?>
+                        <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                      <?php endif; ?>
+                    <?php else: ?>
+                      <img src="img/select_none.jpg">
+                    <?php endif; ?>
                     <div class="detail">
                       <p><?= h($post["member"]["name"]); ?>さん</p>
                       <div class="heart-box">
@@ -463,7 +532,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank1">
                           <?php if($post["content"][0]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][0]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -483,7 +556,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank2">
                           <?php if($post["content"][1]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][1]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][1]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -503,7 +580,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank3">
                           <?php if($post["content"][2]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][2]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][2]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -546,7 +627,15 @@ $counterComic = 0;
                   <span class="square">#<?= $counterComic; ?></span>
                   <span class="triangle"></span>
                   <div class="member-pro">
-                    <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php if($post["member"]["picture"]): ?>
+                      <?php if($s3Api): ?>
+                        <img src="<?= h(get_mem($post["member"]["picture"])); ?>">
+                      <?php else: ?>
+                        <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                      <?php endif; ?>
+                    <?php else: ?>
+                      <img src="img/select_none.jpg">
+                    <?php endif; ?>
                     <div class="detail">
                       <p><?= h($post["member"]["name"]); ?>さん</p>
                       <div class="heart-box">
@@ -560,7 +649,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank1">
                           <?php if($post["content"][0]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][0]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -580,7 +673,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank2">
                           <?php if($post["content"][1]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][1]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][1]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>
@@ -600,7 +697,11 @@ $counterComic = 0;
                       <div class="post">
                         <div class="post-img rank3">
                           <?php if($post["content"][2]["picture"]): ?>
-                            <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                            <?php if($s3Api): ?>
+                              <img src="<?= h(get_pos($post["content"][2]["picture"])); ?>">
+                            <?php else: ?>
+                              <img src="post_img/<?= h($post["content"][2]["picture"]); ?>">
+                            <?php endif; ?>
                           <?php else: ?>
                             <img src="img/no-image.png">
                           <?php endif; ?>

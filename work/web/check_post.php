@@ -2,51 +2,40 @@
 
 require("../app/functions.php");
 require("../app/dbconnect.php");
+require("../app/upload.php");
+
 session_start();
-
-// postsテーブル
-// +-----------+-------------+------+-----+---------+----------------+
-// | Field     | Type        | Null | Key | Default | Extra          |
-// +-----------+-------------+------+-----+---------+----------------+
-// | id        | int(11)     | NO   | PRI | NULL    | auto_increment |
-// | member_id | int(11)     | YES  |     | NULL    |                |
-// | created   | datetime    | YES  |     | NULL    |                |
-// | modified  | timestamp   | YES  |     | NULL    |                |
-// | likes     | int(11)     | YES  |     | NULL    |                |
-// | category  | varchar(30) | YES  |     | NULL    |                |
-// +-----------+-------------+------+-----+---------+----------------+
-
-// contentテーブル
-// +-------------+--------------+------+-----+---------+----------------+
-// | Field       | Type         | Null | Key | Default | Extra          |
-// +-------------+--------------+------+-----+---------+----------------+
-// | id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-// | post_id     | int(11)      | YES  |     | NULL    |                |
-// | title       | varchar(255) | YES  |     | NULL    |                |
-// | author      | varchar(255) | YES  |     | NULL    |                |
-// | description | text         | YES  |     | NULL    |                |
-// | picture     | varchar(255) | YES  |     | NULL    |                |
-// +-------------+--------------+------+-----+---------+----------------+
-
 
 if(!empty($_POST)){
   if(!empty($_FILES["image"]["name"][0])){
-    $image = bin2hex(random_bytes(32)) . $_FILES["image"]["name"][0];
-    move_uploaded_file($_FILES["image"]["tmp_name"][0], "post_img/" . $image);
+    $image = bin2hex(random_bytes(12)) . $_FILES["image"]["name"][0];
+    $tmp = $_FILES["image"]["tmp_name"][0];
+    if($s3Api){
+      put_pos($image, $tmp);
+    }else{
+      move_uploaded_file($_FILES["image"]["tmp_name"][0], "post_img/" . $image);
+    }
     $image1 = $image;
-    global $image1;
   }
   if(!empty($_FILES["image"]["name"][1])){
-    $image = bin2hex(random_bytes(32)) . $_FILES["image"]["name"][1];
-    move_uploaded_file($_FILES["image"]["tmp_name"][1], "post_img/" . $image);
+    $image = bin2hex(random_bytes(12)) . $_FILES["image"]["name"][1];
+    $tmp = $_FILES["image"]["tmp_name"][1];
+    if($s3Api){
+      put_pos($image, $tmp);
+    }else{
+      move_uploaded_file($_FILES["image"]["tmp_name"][1], "post_img/" . $image);
+    }
     $image2 = $image;
-    global $image2;
   }
   if(!empty($_FILES["image"]["name"][2])){
-    $image = bin2hex(random_bytes(32)) . $_FILES["image"]["name"][2];
-    move_uploaded_file($_FILES["image"]["tmp_name"][2], "post_img/" . $image);
+    $image = bin2hex(random_bytes(12)) . $_FILES["image"]["name"][2];
+    $tmp = $_FILES["image"]["tmp_name"][2];
+    if($s3Api){
+      put_pos($image, $tmp);
+    }else{
+      move_uploaded_file($_FILES["image"]["tmp_name"][2], "post_img/" . $image);
+    }
     $image3 = $image;
-    global $image3;
   }
 
   $content1 = $_SESSION["post"]["content"][0];

@@ -2,6 +2,7 @@
 
 require("../app/functions.php");
 require("../app/dbconnect.php");
+require("../app/upload.php");
 
 session_start();
 
@@ -9,30 +10,81 @@ $stmt = $pdo->prepare("SELECT * FROM members WHERE id=?");
 $stmt->execute([$_SESSION["id"]]);
 $member = $stmt->fetch();
 
-// postsテーブル
-// +-----------+-----------+------+-----+---------+----------------+
-// | Field     | Type      | Null | Key | Default | Extra          |
-// +-----------+-----------+------+-----+---------+----------------+
-// | id        | int(11)   | NO   | PRI | NULL    | auto_increment |
-// | member_id | int(11)   | YES  |     | NULL    |                |
-// | created   | datetime  | YES  |     | NULL    |                |
-// | modified  | timestamp | YES  |     | NULL    |                |
-// | likes     | int(11)   | YES  |     | NULL    |                |
-// +-----------+-----------+------+-----+---------+----------------+
 
-// contentテーブル
-// +-------------+--------------+------+-----+---------+----------------+
-// | Field       | Type         | Null | Key | Default | Extra          |
-// +-------------+--------------+------+-----+---------+----------------+
-// | id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-// | post_id     | int(11)      | YES  |     | NULL    |                |
-// | category    | varchar(30)  | YES  |     | NULL    |                |
-// | title       | varchar(255) | YES  |     | NULL    |                |
-// | author      | varchar(255) | YES  |     | NULL    |                |
-// | description | text         | YES  |     | NULL    |                |
-// | ranking     | int(11)      | YES  |     | NULL    |                |
-// | picture     | varchar(255) | YES  |     | NULL    |                |
-// +-------------+--------------+------+-----+---------+----------------+
+// プロフィール編集
+
+if(!empty($_POST["profile"]) || !empty($_FILES)){
+  if(blk($_POST["profile"]["name"]) !== ""){
+    $stmt = $pdo->prepare("UPDATE members SET name=? WHERE id=?");
+    $stmt->execute([$_POST["profile"]["name"], $_SESSION["id"]]);
+  }
+  if(blk($_POST["profile"]["mail"]) !== ""){
+    $stmt = $pdo->prepare("UPDATE members SET mail=? WHERE id=?");
+    $stmt->execute([$_POST["profile"]["mail"], $_SESSION["id"]]);
+  }
+  if(!empty($_FILES["image"]["name"])){
+    $fileName = bin2hex(random_bytes(12)) . $_FILES["image"]["name"];
+    $tmp = $_FILES["image"]["tmp_name"];
+    if($s3Api){
+      put_mem($fileName, $tmp);
+      del_mem($member["picture"]);
+    }else{
+      move_uploaded_file($tmp, "member_img/" . $fileName);
+      unlink("member_img/" . $member["picture"]);
+    }
+    $stmt = $pdo->prepare("UPDATE members SET picture=? WHERE id=?");
+    $stmt->execute([$fileName, $_SESSION["id"]]);
+  }
+  header("Location: posts.php");
+  exit();
+}
+
+
+// 新規投稿
+
+if(!empty($_POST["content"])){
+  if(blk($_POST["category"]) === ""){
+    $error["category"] = "blank";
+  }
+  if(blk($_POST["content"][0]["title"]) === ""){
+    $error["post1"] = "blank";
+  }
+  if(blk($_POST["content"][1]["author"]) !== "" || blk($_POST["content"][1]["desc"]) !== ""){
+    if(blk($_POST["content"][1]["title"]) === ""){
+      $error["post2"] = "blank";
+    }
+  }
+  if(blk($_POST["content"][2]["author"]) !== "" || blk($_POST["content"][2]["desc"]) !== ""){
+    if(blk($_POST["content"][2]["title"]) === ""){
+      $error["post3"] = "blank";
+    }
+  }
+  if(empty($error)){
+    $stmt = $pdo->prepare(
+      "SELECT * 
+       FROM (SELECT * FROM posts WHERE member_id = ? AND category = ?) AS posts"
+    );
+    $stmt->execute([$member["id"], $_POST["category"]]);
+    $result = $stmt->fetch();
+    if($result){
+      $error["category"] = "duplicate";
+    }
+  }
+  if(empty($error)){
+    $_SESSION["post"] = $_POST;
+    header("Location: check_post.php");
+    exit();
+  }
+}
+
+if($_REQUEST["action"] === "rewrite" && isset($_SESSION["post"])){
+  $_POST = $_SESSION["post"];
+}
+
+if($_REQUEST["action"] === "successed"){
+  $successed = "successed";
+}
+
 
 // 投稿内容取得
 $stmt = $pdo->prepare("SELECT * FROM posts WHERE member_id = ?");
@@ -90,73 +142,8 @@ $stmt->execute([$_SESSION["id"]]);
 $comic = $stmt->fetchAll();
 
 
-
-// プロフィール編集
-if(!empty($_POST["profile"]) || !empty($_FILES)){
-  if(blk($_POST["profile"]["name"]) !== ""){
-    $stmt = $pdo->prepare("UPDATE members SET name=? WHERE id=?");
-    $stmt->execute([$_POST["profile"]["name"], $_SESSION["id"]]);
-  }
-  if(blk($_POST["profile"]["mail"]) !== ""){
-    $stmt = $pdo->prepare("UPDATE members SET mail=? WHERE id=?");
-    $stmt->execute([$_POST["profile"]["mail"], $_SESSION["id"]]);
-  }
-  if(!empty($_FILES["image"]["name"])){
-    $image = bin2hex(random_bytes(32)) . $_FILES["image"]["name"];
-    move_uploaded_file($_FILES["image"]["tmp_name"], "member_img/" . $image);
-    unlink("member_img/" . $member["picture"]);
-    $stmt = $pdo->prepare("UPDATE members SET picture=? WHERE id=?");
-    $stmt->execute([$image, $_SESSION["id"]]);
-  }
-  header("Location: posts.php");
-  exit();
-}
-
-// 投稿
-if(!empty($_POST["content"])){
-  if(blk($_POST["category"]) === ""){
-    $error["category"] = "blank";
-  }
-  if(blk($_POST["content"][0]["title"]) === ""){
-    $error["post1"] = "blank";
-  }
-  if(blk($_POST["content"][1]["author"]) !== "" || blk($_POST["content"][1]["desc"]) !== ""){
-    if(blk($_POST["content"][1]["title"]) === ""){
-      $error["post2"] = "blank";
-    }
-  }
-  if(blk($_POST["content"][2]["author"]) !== "" || blk($_POST["content"][2]["desc"]) !== ""){
-    if(blk($_POST["content"][2]["title"]) === ""){
-      $error["post3"] = "blank";
-    }
-  }
-  if(empty($error)){
-    $stmt = $pdo->prepare(
-      "SELECT * 
-       FROM (SELECT * FROM posts WHERE member_id = ? AND category = ?) AS posts"
-    );
-    $stmt->execute([$member["id"], $_POST["category"]]);
-    $result = $stmt->fetch();
-    if($result){
-      $error["category"] = "duplicate";
-    }
-  }
-  if(empty($error)){
-    $_SESSION["post"] = $_POST;
-    header("Location: check_post.php");
-    exit();
-  }
-}
-
-if($_REQUEST["action"] === "rewrite" && isset($_SESSION["post"])){
-  $_POST = $_SESSION["post"];
-}
-
-if($_REQUEST["action"] === "successed"){
-  $successed = "successed";
-}
-
 // ライブラリ取得
+
 // ビジネス
 $stmt = $pdo->prepare(
   "SELECT *, (SELECT COUNT(id) FROM library WHERE member_id = :id AND category = 'busi') as cnt
@@ -270,7 +257,15 @@ $lib_comic = $stmt->fetchAll();
   <?php endif; ?>
   <!-- プロフィール編集 -->
   <div class="profile">
-    <img src="member_img/<?= h($member["picture"]); ?>">
+    <?php if($member["picture"]): ?>
+      <?php if($s3Api): ?>
+        <img src="<?= h(get_mem($member["picture"])); ?>">
+      <?php else: ?>
+        <img src="member_img/<?= h($member["picture"]); ?>">
+      <?php endif; ?>
+    <?php else: ?>
+      <img src="img/select_none.jpg">
+    <?php endif; ?>
     <div class="detail">
       <h1><?= h($member["name"]); ?></h1>
       <div id="edit" class="edit-btn">プロフィールを編集する</div>
@@ -312,7 +307,7 @@ $lib_comic = $stmt->fetchAll();
       <li data-id="library">ライブラリ</li>
     </ul>
 
-    <!-- 投稿 -->
+    <!-- 新規投稿 -->
     <div class="content active" id="post">
       <p>
         本のカテゴリーごとに、あなたのベスト３を投稿してください！
@@ -372,37 +367,37 @@ $lib_comic = $stmt->fetchAll();
       </form>
     </div>
 
-    <!-- 投稿一覧 -->
+    <!-- 自分の投稿 -->
     <div class="content" id="posts">
       <ul>
         <li>
-          <?php if(empty($busi)): ?>
-            <label for="busi-post" class="posts-label" data-id="busi-span">
-              ビジネス
-              <span class="material-icons" id="busi-span">
-                keyboard_arrow_down
-              </span>
-            </label>
-          <?php else: ?>
-            <label for="busi-post" class="posts-label" data-id="busi-span">
-              ビジネス
+          <label for="busi-post" class="posts-label" data-id="busi-span">
+            ビジネス
+            <?php if(!empty($busi)): ?>
               <em class="material-icons">check</em>
-              <span class="material-icons" id="busi-span">
-                keyboard_arrow_down
-              </span>
-            </label>
-          <?php endif ?>
+            <?php endif; ?>
+            <span class="material-icons" id="busi-span">
+              keyboard_arrow_down
+            </span>
+          </label>
           <input type="checkbox" id="busi-post" class="accordion">
           <?php if(!empty($busi)): ?>
             <div class="busi-post post-content">
-              <div class="likes"><i class="material-icons">favorite</i><span><?= h($busi[0]["likes"]); ?></span></div>
+              <div class="likes">
+                <i class="material-icons">favorite</i>
+                <span><?= h($busi[0]["likes"]); ?></span>
+              </div>
               <div class="rank">
                 <h2>１位</h2>
                 <div class="post-fb">
                   <div class="post-fi image">
                     <div id="rank1">
                       <?php if(isset($busi[0]["picture"])): ?>
-                        <img src="post_img/<?= $busi[0]["picture"]; ?>">
+                        <?php if($s3Api): ?>
+                          <img src="<?= h(get_pos($busi[0]["picture"])); ?>">
+                        <?php else: ?>
+                          <img src="post_img/<?= $busi[0]["picture"]; ?>">
+                        <?php endif; ?>
                       <?php else: ?>
                         <img src="img/no-image.png">
                       <?php endif; ?>
@@ -429,7 +424,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank2">
                         <?php if(isset($busi[1]["picture"])): ?>
-                          <img src="post_img/<?= $busi[1]["picture"]; ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_pos($busi[1]["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="post_img/<?= $busi[1]["picture"]; ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -457,7 +456,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank3">
                         <?php if(isset($busi[2]["picture"])): ?>
-                          <img src="post_img/<?= $busi[2]["picture"]; ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_pos($busi[2]["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="post_img/<?= $busi[2]["picture"]; ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -490,22 +493,15 @@ $lib_comic = $stmt->fetchAll();
           <?php endif; ?>
         </li>
         <li>
-          <?php if(empty($enlight)): ?>
-            <label for="enlight-post" class="posts-label" data-id="enlight-span">
-              自己啓発
-              <span class="material-icons" id="enlight-span">
-                keyboard_arrow_down
-              </span>
-            </label>
-          <?php else: ?>
-            <label for="enlight-post" class="posts-label" data-id="enlight-span">
-              自己啓発
+          <label for="enlight-post" class="posts-label" data-id="enlight-span">
+            自己啓発
+            <?php if(!empty($enlight)): ?>
               <em class="material-icons">check</em>
-              <span class="material-icons" id="enlight-span">
-                keyboard_arrow_down
-              </span>
-            </label>
-          <?php endif ?>
+            <?php endif; ?>
+            <span class="material-icons" id="enlight-span">
+              keyboard_arrow_down
+            </span>
+          </label>
           <input type="checkbox" id="enlight-post" class="accordion">
           <?php if(!empty($enlight)): ?>
             <div class="enlight-post post-content">
@@ -516,7 +512,11 @@ $lib_comic = $stmt->fetchAll();
                   <div class="post-fi image">
                     <div id="rank1">
                       <?php if(isset($enlight[0]["picture"])): ?>
-                        <img src="post_img/<?= $enlight[0]["picture"]; ?>">
+                        <?php if($s3Api): ?>
+                          <img src="<?= h(get_pos($enlight[0]["picture"])); ?>">
+                        <?php else: ?>
+                          <img src="post_img/<?= $enlight[0]["picture"]; ?>">
+                        <?php endif; ?>
                       <?php else: ?>
                         <img src="img/no-image.png">
                       <?php endif; ?>
@@ -543,7 +543,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank2">
                         <?php if(isset($enlight[1]["picture"])): ?>
-                          <img src="post_img/<?= $enlight[1]["picture"]; ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_pos($enlight[1]["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="post_img/<?= $enlight[1]["picture"]; ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -571,7 +575,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank3">
                         <?php if(isset($enlight[2]["picture"])): ?>
-                          <img src="post_img/<?= $enlight[2]["picture"]; ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_pos($enlight[2]["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="post_img/<?= $enlight[2]["picture"]; ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -604,22 +612,15 @@ $lib_comic = $stmt->fetchAll();
           <?php endif; ?>
         </li>
         <li>
-          <?php if(empty($lite)): ?>
-            <label for="lite-post" class="posts-label" data-id="lite-span">
-              文芸
-              <span class="material-icons" id="lite-span">
-                keyboard_arrow_down
-              </span>
-            </label>
-          <?php else: ?>
-            <label for="lite-post" class="posts-label" data-id="lite-span">
-              文芸
+          <label for="lite-post" class="posts-label" data-id="lite-span">
+            文芸
+            <?php if(!empty($lite)): ?>
               <em class="material-icons">check</em>
-              <span class="material-icons" id="lite-span">
-                keyboard_arrow_down
-              </span>
-            </label>
-          <?php endif ?>
+            <?php endif; ?>
+            <span class="material-icons" id="lite-span">
+              keyboard_arrow_down
+            </span>
+          </label>
           <input type="checkbox" id="lite-post" class="accordion">
           <?php if(!empty($lite)): ?>
             <div class="lite-post post-content">
@@ -630,7 +631,11 @@ $lib_comic = $stmt->fetchAll();
                   <div class="post-fi image">
                     <div id="rank1">
                       <?php if(isset($lite[0]["picture"])): ?>
-                        <img src="post_img/<?= $lite[0]["picture"]; ?>">
+                        <?php if($s3Api): ?>
+                          <img src="<?= h(get_pos($lite[0]["picture"])); ?>">
+                        <?php else: ?>
+                          <img src="post_img/<?= $lite[0]["picture"]; ?>">
+                        <?php endif; ?>
                       <?php else: ?>
                         <img src="img/no-image.png">
                       <?php endif; ?>
@@ -657,7 +662,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank2">
                         <?php if(isset($lite[1]["picture"])): ?>
-                          <img src="post_img/<?= $lite[1]["picture"]; ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_pos($lite[1]["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="post_img/<?= $lite[1]["picture"]; ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -685,7 +694,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank3">
                         <?php if(isset($lite[2]["picture"])): ?>
-                          <img src="post_img/<?= $lite[2]["picture"]; ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_pos($lite[2]["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="post_img/<?= $lite[2]["picture"]; ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -718,22 +731,15 @@ $lib_comic = $stmt->fetchAll();
           <?php endif; ?>
         </li>
         <li>
-          <?php if(empty($plac)): ?>
-            <label for="plac-post" class="posts-label" data-id="plac-span">
-              趣味・実用
-              <span class="material-icons" id="plac-span">
-                keyboard_arrow_down
-              </span>
-            </label>
-          <?php else: ?>
-            <label for="plac-post" class="posts-label" data-id="plac-span">
-              趣味・実用
+          <label for="plac-post" class="posts-label" data-id="plac-span">
+            趣味・実用
+            <?php if(!empty($plac)): ?>
               <em class="material-icons">check</em>
-              <span class="material-icons" id="plac-span">
-                keyboard_arrow_down
-              </span>
-            </label>
-          <?php endif ?>
+            <?php endif; ?>
+            <span class="material-icons" id="plac-span">
+              keyboard_arrow_down
+            </span>
+          </label>
           <input type="checkbox" id="plac-post" class="accordion">
           <?php if(!empty($plac)): ?>
             <div class="plac-post post-content">
@@ -744,7 +750,11 @@ $lib_comic = $stmt->fetchAll();
                   <div class="post-fi image">
                     <div id="rank1">
                       <?php if(isset($plac[0]["picture"])): ?>
-                        <img src="post_img/<?= $plac[0]["picture"]; ?>">
+                        <?php if($s3Api): ?>
+                          <img src="<?= h(get_pos($plac[0]["picture"])); ?>">
+                        <?php else: ?>
+                          <img src="post_img/<?= $plac[0]["picture"]; ?>">
+                        <?php endif; ?>
                       <?php else: ?>
                         <img src="img/no-image.png">
                       <?php endif; ?>
@@ -771,7 +781,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank2">
                         <?php if(isset($plac[1]["picture"])): ?>
-                          <img src="post_img/<?= $plac[1]["picture"]; ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_pos($plac[1]["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="post_img/<?= $plac[1]["picture"]; ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -799,7 +813,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank3">
                         <?php if(isset($plac[2]["picture"])): ?>
-                          <img src="post_img/<?= $plac[2]["picture"]; ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_pos($plac[2]["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="post_img/<?= $plac[2]["picture"]; ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -832,22 +850,15 @@ $lib_comic = $stmt->fetchAll();
           <?php endif; ?>
         </li>
         <li>
-          <?php if(empty($comic)): ?>
-            <label for="comic-post" class="posts-label" data-id="comic-span">
-              漫画
-              <span class="material-icons" id="comic-span">
-                keyboard_arrow_down
-              </span>
-            </label>
-          <?php else: ?>
-            <label for="comic-post" class="posts-label" data-id="comic-span">
-              漫画
+          <label for="comic-post" class="posts-label" data-id="comic-span">
+            漫画
+            <?php if(!empty($comic)): ?>
               <em class="material-icons">check</em>
-              <span class="material-icons" id="comic-span">
-                keyboard_arrow_down
-              </span>
-            </label>
-          <?php endif ?>
+            <?php endif; ?>
+            <span class="material-icons" id="comic-span">
+              keyboard_arrow_down
+            </span>
+          </label>
           <input type="checkbox" id="comic-post" class="accordion">
           <?php if(!empty($comic)): ?>
             <div class="comic-post post-content">
@@ -858,7 +869,11 @@ $lib_comic = $stmt->fetchAll();
                   <div class="post-fi image">
                     <div id="rank1">
                       <?php if(isset($comic[0]["picture"])): ?>
-                        <img src="post_img/<?= $comic[0]["picture"]; ?>">
+                        <?php if($s3Api): ?>
+                          <img src="<?= h(get_pos($comic[0]["picture"])); ?>">
+                        <?php else: ?>
+                          <img src="post_img/<?= $comic[0]["picture"]; ?>">
+                        <?php endif; ?>
                       <?php else: ?>
                         <img src="img/no-image.png">
                       <?php endif; ?>
@@ -885,7 +900,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank2">
                         <?php if(isset($comic[1]["picture"])): ?>
-                          <img src="post_img/<?= $comic[1]["picture"]; ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_pos($comic[1]["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="post_img/<?= $comic[1]["picture"]; ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -913,7 +932,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank3">
                         <?php if(isset($comic[2]["picture"])): ?>
-                          <img src="post_img/<?= $comic[2]["picture"]; ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_pos($comic[2]["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="post_img/<?= $comic[2]["picture"]; ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -947,9 +970,9 @@ $lib_comic = $stmt->fetchAll();
         </li>
       </ul>
     </div>
-    <!-- <div class="test-height"></div> -->
 
-    <!-- 蔵書 -->
+
+    <!-- ライブラリ -->
     <div class="content" id="library">
       <ul>
         <li>
@@ -975,7 +998,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank1">
                         <?php if(isset($post["picture"])): ?>
-                          <img src="library_img/<?= h($post["picture"]); ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_lib($post["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="library_img/<?= h($post["picture"]); ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -1027,7 +1054,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank1">
                         <?php if(isset($post["picture"])): ?>
-                          <img src="library_img/<?= h($post["picture"]); ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_lib($post["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="library_img/<?= h($post["picture"]); ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -1079,7 +1110,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank1">
                         <?php if(isset($post["picture"])): ?>
-                          <img src="library_img/<?= h($post["picture"]); ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_lib($post["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="library_img/<?= h($post["picture"]); ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -1131,7 +1166,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank1">
                         <?php if(isset($post["picture"])): ?>
-                          <img src="library_img/<?= h($post["picture"]); ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_lib($post["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="library_img/<?= h($post["picture"]); ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>
@@ -1183,7 +1222,11 @@ $lib_comic = $stmt->fetchAll();
                     <div class="post-fi image">
                       <div id="rank1">
                         <?php if(isset($post["picture"])): ?>
-                          <img src="library_img/<?= h($post["picture"]); ?>">
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_lib($post["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="library_img/<?= h($post["picture"]); ?>">
+                          <?php endif; ?>
                         <?php else: ?>
                           <img src="img/no-image.png">
                         <?php endif; ?>

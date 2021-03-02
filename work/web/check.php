@@ -2,6 +2,7 @@
 
 require("../app/functions.php");
 require("../app/dbconnect.php");
+require("../app/upload.php");
 
 session_start();
 
@@ -20,8 +21,15 @@ if(!empty($_POST)){
   }
   
   if(empty($error)){
-    $image = bin2hex(random_bytes(32)) . $_FILES["image"]["name"];
-    move_uploaded_file($_FILES["image"]["tmp_name"], "member_img/" . $image);
+    $image = bin2hex(random_bytes(12)) . $_FILES["image"]["name"];
+    $tmp = $_FILES["image"]["tmp_name"];
+
+    // プロフィール画像アップロード
+      // 開発環境
+    // move_uploaded_file($tmp, "member_img/" . $image);
+      // 本番環境(S3)
+    put_mem($image, $tmp);
+
     $_SESSION["join"]["image"] = $image;
 
     $stmt = $pdo->prepare("INSERT INTO members SET name=?, mail=?, pass=?, picture=?, created=NOW()");

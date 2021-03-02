@@ -2,39 +2,30 @@
 
 require("../app/functions.php");
 require("../app/dbconnect.php");
+require("../app/upload.php");
 
 session_start();
 
-$id = $_REQUEST["id"]; //post_id
+//post_id
+$id = $_REQUEST["id"];
 
 if(!isset($id)){
   header("Location: main.php");
   exit();
 }
 
-// 投稿情報、内容
+
+// 投稿情報、投稿内容
 $stmt = $pdo->prepare("SELECT * FROM posts JOIN content ON posts.id = content.post_id WHERE posts.id = ?");
 $stmt->execute([$id]);
 $posts = $stmt->fetchAll();
+
 
 // メンバー情報
 $stmt = $pdo->prepare("SELECT * FROM members WHERE id = ?");
 $stmt->execute([$posts[0]["member_id"]]);
 $member = $stmt->fetch();
 
-// library
-// +-------------+--------------+------+-----+---------+----------------+
-// | Field       | Type         | Null | Key | Default | Extra          |
-// +-------------+--------------+------+-----+---------+----------------+
-// | id          | int(11)      | NO   | PRI | NULL    | auto_increment |
-// | post_id     | int(11)      | YES  |     | NULL    |                |
-// | category    | varchar(30)  | YES  |     | NULL    |                |
-// | title       | varchar(255) | YES  |     | NULL    |                |
-// | author      | varchar(255) | YES  |     | NULL    |                |
-// | description | text         | YES  |     | NULL    |                |
-// | picture     | varchar(255) | YES  |     | NULL    |                |
-// | member_id   | int(11)      | YES  |     | NULL    |                |
-// +-------------+--------------+------+-----+---------+----------------+
 
 // ライブラリ登録
 if(!empty($_POST)){
@@ -45,13 +36,22 @@ if(!empty($_POST)){
     if(empty($mylib)){
       $stmt = $pdo->prepare(
         "INSERT INTO library
-        SET post_id=?, member_id=?, category=?, title=?, author=?, description=?, created = NOW()");
+        SET post_id=?, member_id=?, category=?, title=?, author=?, description=?, created = NOW()"
+      );
       $stmt->execute([$posts[0]["post_id"], $_SESSION["id"], $posts[0]["category"], $posts[0]["title"], $posts[0]["author"], $posts[0]["description"]]);
       if(isset($posts[0]["picture"])){
-        $fileName = substr_replace($posts[0]["picture"], bin2hex(random_bytes(32)), 1, 32);
-        $stmt = $pdo->prepare("UPDATE library SET picture = ? WHERE member_id = ? AND post_id = ? AND title = ?");
+        $fileName = substr_replace($posts[0]["picture"], bin2hex(random_bytes(12)), 0, 24);
+        $stmt = $pdo->prepare(
+          "UPDATE library
+          SET picture = ?
+          WHERE member_id = ? AND post_id = ? AND title = ?"
+        );
         $stmt->execute([$fileName, $_SESSION["id"], $posts[0]["post_id"], $posts[0]["title"]]);
-        copy("post_img/" . $posts[0]["picture"], "library_img/" . $fileName);
+        if($s3Api){
+          cop_pos($fileName, $posts[0]["picture"]);
+        }else{
+          copy("post_img/" . $posts[0]["picture"], "library_img/" . $fileName);
+        }
       }
       header("Location: view.php?id=" . $id . "&action=successed");
     }else{
@@ -65,13 +65,21 @@ if(!empty($_POST)){
     if(empty($mylib)){
       $stmt = $pdo->prepare(
         "INSERT INTO library
-        SET post_id=?, member_id=?, category=?, title=?, author=?, description=?, created = NOW()");
+        SET post_id=?, member_id=?, category=?, title=?, author=?, description=?, created = NOW()"
+      );
       $stmt->execute([$posts[1]["post_id"], $_SESSION["id"], $posts[1]["category"], $posts[1]["title"], $posts[1]["author"], $posts[1]["description"]]);
       if(isset($posts[1]["picture"])){
-        $fileName = substr_replace($posts[1]["picture"], bin2hex(random_bytes(32)), 1, 32);
-        $stmt = $pdo->prepare("UPDATE library SET picture = ? WHERE member_id = ? AND post_id = ? AND title = ?");
-        $stmt->execute([$fileName, $_SESSION["id"], $post[1]["post_id"], $post[1]["title"]]);
-        copy("post_img/" . $posts[1]["picture"], "library_img/" . $fileName);
+        $fileName = substr_replace($posts[1]["picture"], bin2hex(random_bytes(12)), 0, 24);
+        $stmt = $pdo->prepare("UPDATE library
+          SET picture = ?
+          WHERE member_id = ? AND post_id = ? AND title = ?"
+        );
+        $stmt->execute([$fileName, $_SESSION["id"], $posts[1]["post_id"], $posts[1]["title"]]);
+        if($s3Api){
+          cop_pos($fileName, $posts[1]["picture"]);
+        }else{
+          copy("post_img/" . $posts[1]["picture"], "library_img/" . $fileName);
+        }
       }
       header("Location: view.php?id=" . $id . "&action=successed");
     }else{
@@ -85,13 +93,21 @@ if(!empty($_POST)){
     if(empty($mylib)){
       $stmt = $pdo->prepare(
         "INSERT INTO library
-        SET post_id=?, member_id=?, category=?, title=?, author=?, description=?, created = NOW()");
+        SET post_id=?, member_id=?, category=?, title=?, author=?, description=?, created = NOW()"
+      );
       $stmt->execute([$posts[2]["post_id"], $_SESSION["id"], $posts[2]["category"], $posts[2]["title"], $posts[2]["author"], $posts[2]["description"]]);
       if(isset($posts[2]["picture"])){
-        $fileName = substr_replace($posts[2]["picture"], bin2hex(random_bytes(32)), 1, 32);
-        $stmt = $pdo->prepare("UPDATE library SET picture = ? WHERE member_id = ? AND post_id = ? AND title = ?");
-        $stmt->execute([$fileName, $_SESSION["id"], $post[2]["post_id"], $post[2]["title"]]);
-        copy("post_img/" . $posts[2]["picture"], "library_img/" . $fileName);
+        $fileName = substr_replace($posts[2]["picture"], bin2hex(random_bytes(12)), 0, 24);
+        $stmt = $pdo->prepare("UPDATE library
+          SET picture = ?
+          WHERE member_id = ? AND post_id = ? AND title = ?"
+        );
+        $stmt->execute([$fileName, $_SESSION["id"], $posts[2]["post_id"], $posts[2]["title"]]);
+        if($s3Api){
+          cop_pos($fileName, $posts[2]["picture"]);
+        }else{
+          copy("post_img/" . $posts[2]["picture"], "library_img/" . $fileName);
+        }
       }
       header("Location: view.php?id=" . $id . "&action=successed");
     }else{
@@ -104,7 +120,7 @@ if($_REQUEST["action"] === "successed"){
   $successed = "successed";
 }
 
-// like判定
+// likes
 $stmt = $pdo->prepare("SELECT * FROM likes WHERE member_id = ? AND post_id = ?");
 $stmt->execute([$_SESSION["id"], $posts[0]["post_id"]]);
 $like = $stmt->fetch();
@@ -129,11 +145,6 @@ $like = $stmt->fetch();
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-
-<!-- <pre>
-  <?= var_dump($posts); ?>
-</pre> -->
-
   <header class="nav-mobile">
     <a href="main.php">
       <img class="navbar-brand" src="img/logo.png" alt="logo">
@@ -208,7 +219,15 @@ $like = $stmt->fetch();
     </div>
     <div class="profile">
       <div class="view-detail">
-        <img src="member_img/<?= h($member["picture"]); ?>">
+          <?php if($member["picture"]): ?>
+            <?php if($s3Api): ?>
+              <img src="<?= h(get_mem($member["picture"])); ?>">
+            <?php else: ?>
+              <img src="member_img/<?= h($member["picture"]); ?>">
+            <?php endif ?>
+          <?php else: ?>
+            <img src="img/select_none.jpg">
+          <?php endif; ?>
         <h1><?= h($member["name"]); ?></h1>
       </div>
 
@@ -225,7 +244,6 @@ $like = $stmt->fetch();
         <div class="ripple" id="favorite"></div>
         <span id="like-num"><?= h($posts[0]["likes"]) ?></span>
       </label>
-      <!-- likeボタン -->
 
     </div>
     <div class="tab">
@@ -241,7 +259,11 @@ $like = $stmt->fetch();
         <div class="post-fi image">
           <div id="rank1">
             <?php if(isset($posts[0]["picture"])): ?>
-              <img src="post_img/<?= $posts[0]["picture"]; ?>">
+              <?php if($s3Api): ?>
+                <img src="<?= h(get_pos($posts[0]["picture"])); ?>">
+              <?php else: ?>
+                <img src="post_img/<?= $posts[0]["picture"]; ?>">
+              <?php endif; ?>
             <?php else: ?>
               <img src="img/no-image.png">
             <?php endif; ?>
@@ -275,7 +297,11 @@ $like = $stmt->fetch();
           <div class="post-fi image">
             <div id="rank2">
               <?php if(isset($posts[1]["picture"])): ?>
-                <img src="post_img/<?= $posts[1]["picture"]; ?>">
+                <?php if($s3Api): ?>
+                  <img src="<?= h(get_pos($posts[1]["picture"])); ?>">
+                <?php else: ?>
+                  <img src="post_img/<?= $posts[1]["picture"]; ?>">
+                <?php endif; ?>
               <?php else: ?>
                 <img src="img/no-image.png">
               <?php endif; ?>
@@ -312,7 +338,11 @@ $like = $stmt->fetch();
           <div class="post-fi image">
             <div id="rank3">
               <?php if(isset($posts[2]["picture"])): ?>
-                <img src="post_img/<?= $posts[2]["picture"]; ?>">
+                <?php if($s3Api): ?>
+                  <img src="<?= h(get_pos($posts[2]["picture"])); ?>">
+                <?php else: ?>
+                  <img src="post_img/<?= $posts[2]["picture"]; ?>">
+                <?php endif; ?>
               <?php else: ?>
                 <img src="img/no-image.png">
               <?php endif; ?>

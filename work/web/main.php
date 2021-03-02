@@ -2,6 +2,7 @@
 
 require("../app/functions.php");
 require("../app/dbconnect.php");
+require("../app/upload.php");
 
 session_start();
 
@@ -105,11 +106,6 @@ $counter = 0;
     </ul>
   </nav>
 </header>
-
-<!-- <pre>
-  <//?= var_dump($posts); ?>
-</pre> -->
-
 <div class="top-img">
   <div class="cta-wrapper">
     <h1>
@@ -144,7 +140,11 @@ $counter = 0;
               <a href="view.php?id=<?= h($post["post"]["id"]); ?>">
                 <div class="member-pro">
                   <?php if($post["member"]["picture"]): ?>
-                    <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php if($s3Api): ?>
+                      <img src="<?= h(get_mem($post["member"]["picture"])); ?>">
+                    <?php else: ?>
+                      <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php endif ?>
                   <?php else: ?>
                     <img src="img/select_none.jpg">
                   <?php endif; ?>
@@ -154,7 +154,11 @@ $counter = 0;
                   <div class="post">
                     <div class="post-img rank1">
                       <?php if($post["content"][0]["picture"]): ?>
-                        <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                        <?php if($s3Api): ?>
+                          <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                        <?php else: ?>
+                          <img src="post_img/<?= h($post["content"][0]["picture"]); ?>">
+                        <?php endif; ?>
                       <?php else: ?>
                         <img src="img/no-image.png">
                       <?php endif; ?>
@@ -167,7 +171,11 @@ $counter = 0;
                   <div class="post">
                     <div class="post-img rank2">
                       <?php if($post["content"][1]["picture"]): ?>
-                        <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                        <?php if($s3Api): ?>
+                          <img src="<?= h(get_pos($post["content"][1]["picture"])) ?>">
+                        <?php else: ?>
+                          <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                        <?php endif; ?>
                       <?php else: ?>
                         <img src="img/no-image.png">
                       <?php endif; ?>
@@ -180,7 +188,11 @@ $counter = 0;
                   <div class="post">
                     <div class="post-img rank3">
                       <?php if($post["content"][2]["picture"]): ?>
-                        <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                        <?php if($s3Api): ?>
+                          <img src="<?= h(get_pos($post["content"][2]["picture"])) ?>">
+                        <?php else: ?>
+                          <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                        <?php endif; ?>
                       <?php else: ?>
                         <img src="img/no-image.png">
                       <?php endif; ?>
@@ -223,7 +235,11 @@ $counter = 0;
                 <span class="triangle"></span>
                 <div class="member-pro">
                   <?php if($post["member"]["picture"]): ?>
-                    <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php if($s3Api): ?>
+                      <img src="<?= h(get_mem($post["member"]["picture"])); ?>">
+                    <?php else: ?>
+                      <img src="member_img/<?= h($post["member"]["picture"]); ?>">
+                    <?php endif; ?>
                   <?php else: ?>
                     <img src="img/select_none.jpg">
                   <?php endif; ?>
@@ -239,7 +255,11 @@ $counter = 0;
                   <div class="post">
                     <div class="post-img rank1">
                       <?php if($post["content"][0]["picture"]): ?>
-                        <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                        <?php if($s3Api): ?>
+                          <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                        <?php else: ?>
+                          <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                        <?php endif; ?>
                       <?php else: ?>
                         <img src="img/no-image.png">
                       <?php endif; ?>
@@ -252,7 +272,11 @@ $counter = 0;
                   <div class="post">
                     <div class="post-img rank2">
                       <?php if($post["content"][1]["picture"]): ?>
-                        <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                        <?php if($s3Api): ?>
+                          <img src="<?= h(get_pos($post["content"][1]["picture"])); ?>">
+                        <?php else: ?>
+                          <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
+                        <?php endif; ?>
                       <?php else: ?>
                         <img src="img/no-image.png">
                       <?php endif; ?>
@@ -265,7 +289,11 @@ $counter = 0;
                   <div class="post">
                     <div class="post-img rank3">
                       <?php if($post["content"][2]["picture"]): ?>
-                        <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                        <?php if($s3Api): ?>
+                          <img src="<?= h(get_pos($post["content"][2]["picture"])); ?>">
+                        <?php else: ?>
+                          <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
+                        <?php endif; ?>
                       <?php else: ?>
                         <img src="img/no-image.png">
                       <?php endif; ?>
