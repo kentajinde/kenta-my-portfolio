@@ -11,13 +11,13 @@ if(!isset($_SESSION["join"])){
   exit();
 }
 
-if(!empty($_FILES["image"]["name"])){
-  $fileName = $_FILES["image"]["name"];
-  $ext = substr($fileName, -3);
-  if($ext !== "gif" && $ext !== "jpg" && $ext !== "png"){
-    $error["image"] = "type";
-  }
-}
+// if(!empty($_FILES["image"]["name"])){
+//   $fileName = $_FILES["image"]["name"];
+//   $ext = substr($fileName, -3);
+//   if($ext !== "gif" && $ext !== "jpg" && $ext !== "png"){
+//     $error["image"] = "type";
+//   }
+// }
   
 if(empty($error)){
   if(!empty($_FILES["image"]["name"])){
