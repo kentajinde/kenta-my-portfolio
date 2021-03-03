@@ -20,7 +20,7 @@ header{
   padding: 20px 0;
 }
 .tab > ul li{
-  font-size: 15px;
+  font-size: 12px;
   letter-spacing: 0;
 }
 .tab > ul li.active{
@@ -30,6 +30,7 @@ header{
 /* 投稿一覧 */
 .content.active{
   background-color: transparent;
+  padding: 30px 0;
 }
 .posts{
   background: #ece9db;
@@ -49,10 +50,11 @@ header{
   display: flex;
 }
 .member-pro img{
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   margin-right: 20px;
+  object-fit: cover;
 }
 .member-pro p{
   font-size: 16px;
@@ -60,7 +62,7 @@ header{
   margin-top: 10px;
 }
 .post-list{
-  padding-top: 10px;
+  padding-top: 15px;
 }
 .post-wrapper{
   flex: 33%;
@@ -76,13 +78,13 @@ header{
 .rank1::before, .rank2::before, .rank3::before{
   position: absolute;
   top: -5px;
-  left: 29px;
+  left: 24px;
   width: 40px;
 }
 .post img{
   border-radius: unset;
-  width: 94px;
-  height: 140px;
+  width: 83px;
+  height: 120px;
   display: block;
   margin: 0 auto;
   object-fit: cover;
@@ -93,11 +95,11 @@ header{
   padding-left: 5px;
 }
 .content-desc h3{
-  font-size: 15px;
+  font-size: 12px;
   font-weight: bold;
 }
 .content-desc h4{
-  font-size: 15px;
+  font-size: 12px;
 }
 .description{
   display: none;
@@ -113,6 +115,9 @@ header{
 
 /* medium screen */
 @media (min-width: 768px){
+  .tab > ul li{
+    font-size: 15px;
+  }
   .content{
     padding-top: 30px;
   }
@@ -120,11 +125,12 @@ header{
     margin-bottom: 40px;
   }
   .posts:hover{
-    transform: scale(1.03);
+    transform: scale(1.02);
   }
   .member-pro img{
     width: 70px;
     height: 70px;
+    margin-left: 25px;
   }
   .member-pro p{
     font-size: 20px;
@@ -140,12 +146,25 @@ header{
   .rank1::before, .rank2::before, .rank3::before{
     left: 37px;
   }
+  .content-desc h3{
+    font-size: 15px;
+    height: 35px;
+  }
+  .content-desc h4{
+    font-size: 15px;
+    height: 35px;
+  }
+
 }
 
 /* large screen */
 @media (min-width: 1100px){
   main{
     padding: 0 60px;
+  }
+  .member-pro img{
+    margin-right: 45px;
+
   }
   .post-list{
     padding-top: 25px;

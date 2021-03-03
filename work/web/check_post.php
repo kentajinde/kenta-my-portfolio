@@ -115,15 +115,13 @@ if(!empty($_POST)){
                 <img src="img/no-image.png">
               </div>
               <label class="edit-btn">
-                画像を選択する（任意）
+                画像を選択する
                 <input type="file" name="image[]" size="35" accept="image/*" data-id="rank1">
               </label>
             </div>
             <div class="post-fi title">
-              <div>
-                <h3><?= h($_SESSION["post"]["content"][0]["title"]); ?></h3>
-                <p><?= h($_SESSION["post"]["content"][0]["author"]); ?></p>
-              </div>
+              <h3><?= h($_SESSION["post"]["content"][0]["title"]); ?></h3>
+              <p><?= h($_SESSION["post"]["content"][0]["author"]); ?></p>
             </div>
           </div>
           <div class="desc-wrapper">
@@ -142,15 +140,13 @@ if(!empty($_POST)){
                   <img src="img/no-image.png">
                 </div>
                 <label class="edit-btn">
-                  画像を選択する（任意）
+                  画像を選択する
                   <input type="file" name="image[]" size="35" accept="image/*" data-id="rank2">
                 </label>
               </div>
               <div class="post-fi title">
-                <div>
-                  <h3><?= h($_SESSION["post"]["content"][1]["title"]); ?></h3>
-                  <p><?= h($_SESSION["post"]["content"][1]["author"]); ?></p>
-                </div>
+                <h3><?= h($_SESSION["post"]["content"][1]["title"]); ?></h3>
+                <p><?= h($_SESSION["post"]["content"][1]["author"]); ?></p>
               </div>
             </div>
             <div class="desc-wrapper">
@@ -170,15 +166,13 @@ if(!empty($_POST)){
                   <img src="img/no-image.png">
                 </div>
                 <label class="edit-btn">
-                  画像を選択する（任意）
+                  画像を選択する
                   <input type="file" name="image[]" size="35" accept="image/*" data-id="rank3">
                 </label>
               </div>
               <div class="post-fi title">
-                <div>
-                  <h3><?= h($_SESSION["post"]["content"][2]["title"]); ?></h3>
-                  <p><?= h($_SESSION["post"]["content"][2]["author"]); ?></p>
-                </div>
+                <h3><?= h($_SESSION["post"]["content"][2]["title"]); ?></h3>
+                <p><?= h($_SESSION["post"]["content"][2]["author"]); ?></p>
               </div>
             </div>
             <div class="desc-wrapper">
@@ -189,12 +183,13 @@ if(!empty($_POST)){
             </div>
           </div>
         <?php endif; ?>
-        <a href="posts.php?action=rewrite" class="confirm-btn">編集する</a>
-        </label>
-        <label class="confirm-btn">
-          この内容で投稿する
-          <input type="submit">
-        </label>
+        <div class="decision">
+          <a href="posts.php?action=rewrite" class="confirm-btn">編集する</a>
+          <label class="confirm-btn">
+            この内容で投稿する
+            <input type="submit">
+          </label>
+        </div>
       </form>
     </div>
   </main>

@@ -123,7 +123,14 @@ main{
 }
 input[type="submit"]{
   display: block;
-  margin-top: 30px;
+  margin: 30px auto 0;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  border: unset;
+  border-radius: 4px;
+  padding: 8px;
+  background: #b58ec1;
 }
 .rank{
   padding-bottom: 50px;
@@ -163,6 +170,11 @@ input[type="submit"]{
   #like-num{
     left: 80px;
   }
+  input[type="submit"]{
+    margin: 0;
+    margin-top: 30px;
+    font-size: 14px;
+  }
   .content.active{
     padding: 30px 70px;
   }
@@ -172,6 +184,9 @@ input[type="submit"]{
 @media (min-width: 1100px){
   .profile .heart{
     font-size: 55px;
+  }
+  .post-fi.title{
+    margin-left: 40px;
   }
   .likes{
     width: 65px;

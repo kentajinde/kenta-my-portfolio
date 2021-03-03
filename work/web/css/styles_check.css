@@ -8,8 +8,7 @@ body{
   color: #484848 !important;
 }
 .confirm{
-  height: 100%;
-  padding: 30px 35px 0;
+  padding: 30px 35px 30px;
   position: relative;
 }
 .confirm h1{
@@ -17,7 +16,7 @@ body{
   font-weight: bold;
 }
 .confirm dl{
-  margin: 20px 0 30px;
+  margin: 35px 0 30px;
 }
 .confirm dt{
   margin: 15px 0;
@@ -41,7 +40,7 @@ input[type="file"]{
   display: none;
 }
 .edit-btn{
-  background: #7d9bc7ba;
+  background: #7d9bc7;
   border-radius: 10px;
   color: white;
   font-size: 12px;
@@ -88,6 +87,7 @@ input[type="file"]{
   text-decoration: underline;
 }
 .pen{
+  display: none;
   position: absolute;
   width: 90px;
   height: 100px;
@@ -125,6 +125,9 @@ footer p{
   }
   .confirm{
     padding: 30px 50px;
+  }
+  .pen{
+    display: block;
   }
 }
 

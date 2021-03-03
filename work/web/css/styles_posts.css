@@ -67,13 +67,13 @@ main{
 #modal{
   position: fixed;
   background: white;
-  width: 430px;
+  width: 310px;
   border-radius: 8px;
   top: -460px;
   right: 0;
   left: 0;
   margin: 0 auto;
-  padding: 60px 45px;
+  padding: 45px;
   text-align: start;
   z-index: -1;
   transition: 0.35s ease-in-out;
@@ -120,6 +120,7 @@ input[type="submit"]{
   margin-top: 20px;
   padding: 0;
   list-style: none;
+  font-size: 14px;
   text-align: center;
   display: flex;
 }
@@ -208,6 +209,7 @@ input[type="submit"]{
   }
 }
 
+
 /* 投稿一覧 */
 .posts-label{
   display: block;
@@ -217,7 +219,7 @@ input[type="submit"]{
   font-size: 20px;
   font-weight: bold;
   padding: 24px 0;
-  padding-left: 5px;
+  padding-left: 20px;
   margin: 0;
 }
 .label-shadow{
@@ -251,7 +253,7 @@ input[type="submit"]{
 }
 .likes{
   margin-top: 20px;
-  margin-left: 70px;
+  margin-left: 90px;
   font-size: 25px;
   font-weight: bold;
   position: relative;
@@ -265,9 +267,6 @@ input[type="submit"]{
 }
 .likes span{
   color: #65c100;
-}
-.post-fi img{
-  margin: 0;
 }
 .desc::-webkit-scrollbar{
   width: 10px;
@@ -292,80 +291,72 @@ input[type="submit"]{
   visibility: hidden;
   font-size: 18px;
 }
-
-/*投稿 ビジネス*/
+/* ビジネス */
 .busi-post{
   height: max-content;
   display: none;
 }
 #busi-post:checked ~ .busi-post{
   display: block;
-  padding: 0 25px;
 }
 #busi-post:checked ~ .post-nothing{
   height: max-content;
   visibility: visible;
-  padding: 20px 0;
+  padding: 20px;
 }
-
-/*投稿 自己啓発*/
+/* 自己啓発 */
 .enlight-post{
   height: max-content;
   display: none;
 }
 #enlight-post:checked ~ .enlight-post{
   display: block;
-  padding: 0 25px;
 }
 #enlight-post:checked ~ .post-nothing{
   height: max-content;
   visibility: visible;
-  padding: 20px 0;
+  padding: 20px;
 }
-
-/*投稿 文芸*/
+/* 文芸 */
 .lite-post{
   height: max-content;
   display: none;
 }
 #lite-post:checked ~ .lite-post{
   display: block;
-  padding: 0 25px;
 }
 #lite-post:checked ~ .post-nothing{
   height: max-content;
   visibility: visible;
-  padding: 20px 0;
+  padding: 20px;
 }
-
-/*投稿 趣味・実用*/
+/* 趣味・実用 */
 .plac-post{
   height: max-content;
   display: none;
 }
 #plac-post:checked ~ .plac-post{
   display: block;
-  padding: 0 25px;
 }
 #plac-post:checked ~ .post-nothing{
   height: max-content;
   visibility: visible;
-  padding: 20px 0;
+  padding: 20px;
 }
-/*投稿 漫画*/
+/* 漫画 */
 .comic-post{
   height: max-content;
   display: none;
 }
 #comic-post:checked ~ .comic-post{
   display: block;
-  padding: 0 25px;
 }
 #comic-post:checked ~ .post-nothing{
   height: max-content;
   visibility: visible;
-  padding: 20px 0;
+  padding: 20px;
 }
+
 
 /* ライブラリ */
 .lib-del{
@@ -389,7 +380,7 @@ input[type="submit"]{
 #lib-busi:checked ~ .post-nothing{
   height: max-content;
   visibility: visible;
-  padding: 20px 0;
+  padding: 20px;
 }
 /* 自己啓発 */
 .lib-enlight{
@@ -401,7 +392,7 @@ input[type="submit"]{
 #lib-enlight:checked ~ .post-nothing{
   height: max-content;
   visibility: visible;
-  padding: 20px 0;
+  padding: 20px;
 }
 /* 文芸 */
 .lib-lite{
@@ -413,7 +404,7 @@ input[type="submit"]{
 #lib-lite:checked ~ .post-nothing{
   height: max-content;
   visibility: visible;
-  padding: 20px 0;
+  padding: 20px;
 }
 /* 趣味・実用 */
 .lib-plac{
@@ -425,7 +416,7 @@ input[type="submit"]{
 #lib-plac:checked ~ .post-nothing{
   height: max-content;
   visibility: visible;
-  padding: 20px 0;
+  padding: 20px;
 }
 /* 漫画 */
 .lib-comic{
@@ -437,13 +428,13 @@ input[type="submit"]{
 #lib-comic:checked ~ .post-nothing{
   height: max-content;
   visibility: visible;
-  padding: 20px 0;
+  padding: 20px;
 }
 
 /* medium screen */
 @media (min-width: 768px){
   main{
-    padding: 0 40px;
+    padding: 0 40px 40px;
   }
 
   /* プロフィール */
@@ -460,6 +451,10 @@ input[type="submit"]{
   }
   .detail h1{
     font-size: 28px;
+  }
+  #modal{
+    width: 430px;
+    padding: 65px 45px;
   }
 
   /* 投稿 */
@@ -486,6 +481,9 @@ input[type="submit"]{
   .desc{
     text-align: unset;
   }
+  .desc p{
+    font-size: 18px;
+  }
   .delete{
     margin: 0 -70px;
   }
@@ -500,15 +498,28 @@ input[type="submit"]{
 /* large screen */
 @media (min-width: 1100px){
   main{
-    padding: 0 160px;
+    padding: 0 40px 40px;
+  }
+  .myp-wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: end;
+  }
+  .profile{
+    flex-direction: column;
+    padding-top: 185px;
   }
   .profile img{
-    margin-right: 140px;
+    margin: auto;
     width: 160px;
     height: 160px;
   }
   .edit-btn{
     font-size: 16px;
+  }
+
+  .tab{
+    width: 65%;
   }
 
   /* タブメニュー */
@@ -546,6 +557,9 @@ input[type="submit"]{
   .desc{
     margin-bottom: 30px;
   }
+  .desc p{
+    font-size: 20px;
+  }
   .delete{
     margin: 0 -100px;
     padding-bottom: 60px;
@@ -553,6 +567,6 @@ input[type="submit"]{
 
   /* ライブラリ */
   .post-content{
-    padding: 0 100px !important;
+    padding: 0 40px !important;
   }
 }

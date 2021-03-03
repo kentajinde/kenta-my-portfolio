@@ -39,10 +39,11 @@
   display: flex;
   justify-content: space-between;
   padding: 0;
-  padding-right: 130px;
+  padding-right: 70px;
 }
 .heart-box{
   position: relative;
+  margin-left: 60px;
 }
 .heart-box i{
   color: red;
