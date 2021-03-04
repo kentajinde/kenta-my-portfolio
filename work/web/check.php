@@ -11,39 +11,42 @@ if(!isset($_SESSION["join"])){
   exit();
 }
 
-// if(!empty($_FILES["image"]["name"])){
-//   $fileName = $_FILES["image"]["name"];
-//   $ext = substr($fileName, -3);
-//   if($ext !== "gif" && $ext !== "jpg" && $ext !== "png"){
-//     $error["image"] = "type";
-//   }
-// }
+if(!empty($_POST)){
   
-if(empty($error)){
-  if(!empty($_FILES["image"]["name"])){
-    $image = bin2hex(random_bytes(12)) . $_FILES["image"]["name"];
-    $tmp = $_FILES["image"]["tmp_name"];
-    if($s3Api){
-      put_mem($image, $tmp);
-    }else{
-      move_uploaded_file($tmp, "member_img/" . $image);
+  // if(!empty($_FILES["image"]["name"])){
+  //   $fileName = $_FILES["image"]["name"];
+  //   $ext = substr($fileName, -3);
+  //   if($ext !== "gif" && $ext !== "jpg" && $ext !== "png"){
+  //     $error["image"] = "type";
+  //   }
+  // }
+    
+  if(empty($error)){
+    if(!empty($_FILES["image"]["name"])){
+      $image = bin2hex(random_bytes(12)) . $_FILES["image"]["name"];
+      $tmp = $_FILES["image"]["tmp_name"];
+      if($s3Api){
+        put_mem($image, $tmp);
+      }else{
+        move_uploaded_file($tmp, "member_img/" . $image);
+      }
     }
+  
+    $stmt = $pdo->prepare("INSERT INTO members SET name=?, mail=?, pass=?, picture=?, created=NOW()");
+    $stmt->execute([
+      $_SESSION["join"]["name"],
+      $_SESSION["join"]["mail"],
+      sha1($_SESSION["join"]["pass"]),
+      $image,
+    ]);
+    $stmt = $pdo->prepare("SELECT * FROM members WHERE mail=?");
+    $stmt->execute([$_SESSION["join"]["mail"]]);
+    $result = $stmt->fetch();
+    $_SESSION["id"] = $result["id"];
+    unset($_SESSION["join"]);
+    header("Location: main.php");
+    exit();
   }
-
-  $stmt = $pdo->prepare("INSERT INTO members SET name=?, mail=?, pass=?, picture=?, created=NOW()");
-  $stmt->execute([
-    $_SESSION["join"]["name"],
-    $_SESSION["join"]["mail"],
-    sha1($_SESSION["join"]["pass"]),
-    $image,
-  ]);
-  $stmt = $pdo->prepare("SELECT * FROM members WHERE mail=?");
-  $stmt->execute([$_SESSION["join"]["mail"]]);
-  $result = $stmt->fetch();
-  $_SESSION["id"] = $result["id"];
-  unset($_SESSION["join"]);
-  header("Location: main.php");
-  exit();
 }
 
 ?>
