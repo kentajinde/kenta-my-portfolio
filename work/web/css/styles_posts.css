@@ -433,6 +433,12 @@ input[type="submit"]{
 
 /* medium screen */
 @media (min-width: 768px){
+  .navbar .nav-item:first-child .nav-link{
+    border-bottom: solid 2px #656565;
+  }
+  .navbar .nav-item:first-child .nav-link:hover{
+    opacity: unset;
+  }
   main{
     padding: 0 40px 40px;
   }

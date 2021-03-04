@@ -115,6 +115,19 @@ header{
 
 /* medium screen */
 @media (min-width: 768px){
+  .navbar .nav-item:first-child .nav-link{
+    border-bottom: unset;
+  }
+  .navbar .nav-item:first-child .nav-link:hover{
+    opacity: 0.8;
+    border-bottom: solid 2px #656565;
+  }
+  .navbar .nav-item:nth-child(2) .nav-link{
+    border-bottom: solid 2px #656565;
+  }
+  .navbar .nav-item:nth-child(2) .nav-link:hover{
+    opacity: unset;
+  }
   .tab > ul li{
     font-size: 15px;
   }
@@ -162,9 +175,11 @@ header{
   main{
     padding: 0 60px;
   }
+  .tab{
+    width: auto;
+  }
   .member-pro img{
     margin-right: 45px;
-
   }
   .post-list{
     padding-top: 25px;
