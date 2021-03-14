@@ -370,10 +370,8 @@ $lib_comic = $stmt->fetchAll();
             <label for="busi-post" class="posts-label" data-id="busi-span">
               ビジネス
               <?php if(!empty($busi)): ?>
-                <div class="likes">
-                  <i class="material-icons">favorite</i>
-                  <span><?= h($busi[0]["likes"]); ?></span>
-                </div>
+                <i class="material-icons">favorite</i>
+                <span><?= h($busi[0]["likes"]); ?></span>
               <?php endif; ?>
               <span class="material-icons" id="busi-span">
                 keyboard_arrow_down
@@ -1220,7 +1218,6 @@ $lib_comic = $stmt->fetchAll();
           </li>
         </ul>
       </div>
-  
     </div>
   </div>
 </main>
