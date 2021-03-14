@@ -737,7 +737,7 @@ $counterComic = 0;
     </div>
   </main>
   <footer>
-  <p>© sample sample</p>
+  <p>Copyright Kenta All right reserved.</p>
   </footer>
   <script src="js/view.js"></script>
 </body>

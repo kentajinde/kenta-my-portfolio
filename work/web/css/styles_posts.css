@@ -252,8 +252,8 @@ input[type="submit"]{
   border-bottom: unset;
 }
 .likes{
-  margin-top: 20px;
-  margin-left: 90px;
+  display: inline-block;
+  margin: 0;
   font-size: 25px;
   font-weight: bold;
   position: relative;
@@ -262,11 +262,15 @@ input[type="submit"]{
   color: red;
   font-size: 30px;
   position: absolute;
-  top: 5px;
-  left: -57px;
+  top: -24px;
+  left: 33px;
 }
 .likes span{
   color: #65c100;
+  font-size: 25px;
+  font-weight: normal;
+  top: -28px;
+  left: 85px;
 }
 .desc::-webkit-scrollbar{
   width: 10px;
@@ -456,7 +460,7 @@ input[type="submit"]{
     flex: 0;
   }
   .detail h1{
-    font-size: 28px;
+    font-size: 22px;
   }
   #modal{
     width: 430px;
@@ -477,12 +481,6 @@ input[type="submit"]{
   }
   .rank{
     padding-top: 60px;
-  }
-  .likes span{
-    font-size: 30px;
-  }
-  #posts i{
-    font-size: 38px;
   }
   .desc{
     text-align: unset;
@@ -513,7 +511,9 @@ input[type="submit"]{
   }
   .profile{
     flex-direction: column;
-    padding-top: 185px;
+    margin-top: 120px;
+    padding: 100px 70px 80px;
+    background: center/cover url("../img/bg_profile.png");
   }
   .profile img{
     margin: auto;

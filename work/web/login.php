@@ -110,7 +110,7 @@ if(!empty($_POST)){
     </div>
   </main>
   <footer>
-    <p>© sample sample</p>
+    <p>Copyright Kenta All right reserved.</p>
   </footer>
 </body>
 </html>

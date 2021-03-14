@@ -370,7 +370,10 @@ $lib_comic = $stmt->fetchAll();
             <label for="busi-post" class="posts-label" data-id="busi-span">
               ビジネス
               <?php if(!empty($busi)): ?>
-                <em class="material-icons">check</em>
+                <div class="likes">
+                  <i class="material-icons">favorite</i>
+                  <span><?= h($busi[0]["likes"]); ?></span>
+                </div>
               <?php endif; ?>
               <span class="material-icons" id="busi-span">
                 keyboard_arrow_down
@@ -379,10 +382,6 @@ $lib_comic = $stmt->fetchAll();
             <input type="checkbox" id="busi-post" class="accordion">
             <?php if(!empty($busi)): ?>
               <div class="busi-post post-content">
-                <div class="likes">
-                  <i class="material-icons">favorite</i>
-                  <span><?= h($busi[0]["likes"]); ?></span>
-                </div>
                 <div class="rank">
                   <h2>１位</h2>
                   <div class="post-fb">
@@ -400,10 +399,8 @@ $lib_comic = $stmt->fetchAll();
                       </div>
                     </div>
                     <div class="post-fi title">
-                      <div>
-                        <h3><?= h($busi[0]["title"]); ?></h3>
-                        <p><?= h($busi[0]["author"]); ?></p>
-                      </div>
+                      <h3><?= h($busi[0]["title"]); ?></h3>
+                      <p><?= h($busi[0]["author"]); ?></p>
                     </div>
                   </div>
                   <div class="desc-wrapper">
@@ -431,10 +428,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($busi[1]["title"]); ?></h3>
-                          <p><?= h($busi[1]["author"]); ?></p>
-                        </div>
+                        <h3><?= h($busi[1]["title"]); ?></h3>
+                        <p><?= h($busi[1]["author"]); ?></p>
                       </div>
                     </div>
                     <div class="desc-wrapper">
@@ -463,10 +458,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($busi[2]["title"]); ?></h3>
-                          <p><?= h($busi[2]["author"]); ?></p>
-                        </div>
+                        <h3><?= h($busi[2]["title"]); ?></h3>
+                        <p><?= h($busi[2]["author"]); ?></p>
                       </div>
                     </div>
                     <div class="desc-wrapper">
@@ -492,7 +485,10 @@ $lib_comic = $stmt->fetchAll();
             <label for="enlight-post" class="posts-label" data-id="enlight-span">
               自己啓発
               <?php if(!empty($enlight)): ?>
-                <em class="material-icons">check</em>
+                <div class="likes">
+                  <i class="material-icons">favorite</i>
+                  <span><?= h($enlight[0]["likes"]); ?></span>
+                </div>
               <?php endif; ?>
               <span class="material-icons" id="enlight-span">
                 keyboard_arrow_down
@@ -501,7 +497,6 @@ $lib_comic = $stmt->fetchAll();
             <input type="checkbox" id="enlight-post" class="accordion">
             <?php if(!empty($enlight)): ?>
               <div class="enlight-post post-content">
-                <div class="likes"><i class="material-icons">favorite</i><span><?= h($enlight[0]["likes"]); ?></span></div>
                 <div class="rank">
                   <h2>１位</h2>
                   <div class="post-fb">
@@ -519,10 +514,8 @@ $lib_comic = $stmt->fetchAll();
                       </div>
                     </div>
                     <div class="post-fi title">
-                      <div>
-                        <h3><?= h($enlight[0]["title"]); ?></h3>
-                        <p><?= h($enlight[0]["author"]); ?></p>
-                      </div>
+                      <h3><?= h($enlight[0]["title"]); ?></h3>
+                      <p><?= h($enlight[0]["author"]); ?></p>
                     </div>
                   </div>
                   <div class="desc-wrapper">
@@ -550,10 +543,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($enlight[1]["title"]); ?></h3>
-                          <p><?= h($enlight[1]["author"]); ?></p>
-                        </div>
+                        <h3><?= h($enlight[1]["title"]); ?></h3>
+                        <p><?= h($enlight[1]["author"]); ?></p>
                       </div>
                     </div>
                     <div class="desc-wrapper">
@@ -582,10 +573,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($enlight[2]["title"]); ?></h3>
-                          <p><?= h($enlight[2]["author"]); ?></p>
-                        </div>
+                        <h3><?= h($enlight[2]["title"]); ?></h3>
+                        <p><?= h($enlight[2]["author"]); ?></p>
                       </div>
                     </div>
                     <div class="desc-wrapper">
@@ -611,7 +600,10 @@ $lib_comic = $stmt->fetchAll();
             <label for="lite-post" class="posts-label" data-id="lite-span">
               文芸
               <?php if(!empty($lite)): ?>
-                <em class="material-icons">check</em>
+                <div class="likes">
+                  <i class="material-icons">favorite</i>
+                  <span><?= h($lite[0]["likes"]); ?></span>
+                </div>
               <?php endif; ?>
               <span class="material-icons" id="lite-span">
                 keyboard_arrow_down
@@ -620,7 +612,6 @@ $lib_comic = $stmt->fetchAll();
             <input type="checkbox" id="lite-post" class="accordion">
             <?php if(!empty($lite)): ?>
               <div class="lite-post post-content">
-                <div class="likes"><i class="material-icons">favorite</i><span><?= h($lite[0]["likes"]); ?></span></div>
                 <div class="rank">
                   <h2>１位</h2>
                   <div class="post-fb">
@@ -638,10 +629,8 @@ $lib_comic = $stmt->fetchAll();
                       </div>
                     </div>
                     <div class="post-fi title">
-                      <div>
-                        <h3><?= h($lite[0]["title"]); ?></h3>
-                        <p><?= h($lite[0]["author"]); ?></p>
-                      </div>
+                      <h3><?= h($lite[0]["title"]); ?></h3>
+                      <p><?= h($lite[0]["author"]); ?></p>
                     </div>
                   </div>
                   <div class="desc-wrapper">
@@ -669,10 +658,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($lite[1]["title"]); ?></h3>
-                          <p><?= h($lite[1]["author"]); ?></p>
-                        </div>
+                        <h3><?= h($lite[1]["title"]); ?></h3>
+                        <p><?= h($lite[1]["author"]); ?></p>
                       </div>
                     </div>
                     <div class="desc-wrapper">
@@ -701,10 +688,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($lite[2]["title"]); ?></h3>
-                          <p><?= h($lite[2]["author"]); ?></p>
-                        </div>
+                        <h3><?= h($lite[2]["title"]); ?></h3>
+                        <p><?= h($lite[2]["author"]); ?></p>
                       </div>
                     </div>
                     <div class="desc-wrapper">
@@ -730,7 +715,10 @@ $lib_comic = $stmt->fetchAll();
             <label for="plac-post" class="posts-label" data-id="plac-span">
               趣味・実用
               <?php if(!empty($plac)): ?>
-                <em class="material-icons">check</em>
+                <div class="likes">
+                  <i class="material-icons">favorite</i>
+                  <span><?= h($plac[0]["likes"]); ?></span>
+                </div>
               <?php endif; ?>
               <span class="material-icons" id="plac-span">
                 keyboard_arrow_down
@@ -739,7 +727,6 @@ $lib_comic = $stmt->fetchAll();
             <input type="checkbox" id="plac-post" class="accordion">
             <?php if(!empty($plac)): ?>
               <div class="plac-post post-content">
-                <div class="likes"><i class="material-icons">favorite</i><span><?= h($plac[0]["likes"]); ?></span></div>
                 <div class="rank">
                   <h2>１位</h2>
                   <div class="post-fb">
@@ -757,10 +744,8 @@ $lib_comic = $stmt->fetchAll();
                       </div>
                     </div>
                     <div class="post-fi title">
-                      <div>
-                        <h3><?= h($plac[0]["title"]); ?></h3>
-                        <p><?= h($plac[0]["author"]); ?></p>
-                      </div>
+                      <h3><?= h($plac[0]["title"]); ?></h3>
+                      <p><?= h($plac[0]["author"]); ?></p>
                     </div>
                   </div>
                   <div class="desc-wrapper">
@@ -788,10 +773,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($plac[1]["title"]); ?></h3>
-                          <p><?= h($plac[1]["author"]); ?></p>
-                        </div>
+                        <h3><?= h($plac[1]["title"]); ?></h3>
+                        <p><?= h($plac[1]["author"]); ?></p>
                       </div>
                     </div>
                     <div class="desc-wrapper">
@@ -820,10 +803,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($plac[2]["title"]); ?></h3>
-                          <p><?= h($plac[2]["author"]); ?></p>
-                        </div>
+                        <h3><?= h($plac[2]["title"]); ?></h3>
+                        <p><?= h($plac[2]["author"]); ?></p>
                       </div>
                     </div>
                     <div class="desc-wrapper">
@@ -849,7 +830,10 @@ $lib_comic = $stmt->fetchAll();
             <label for="comic-post" class="posts-label" data-id="comic-span">
               漫画
               <?php if(!empty($comic)): ?>
-                <em class="material-icons">check</em>
+                <div class="likes">
+                  <i class="material-icons">favorite</i>
+                  <span><?= h($comic[0]["likes"]); ?></span>
+                </div>
               <?php endif; ?>
               <span class="material-icons" id="comic-span">
                 keyboard_arrow_down
@@ -858,7 +842,6 @@ $lib_comic = $stmt->fetchAll();
             <input type="checkbox" id="comic-post" class="accordion">
             <?php if(!empty($comic)): ?>
               <div class="comic-post post-content">
-                <div class="likes"><i class="material-icons">favorite</i><span><?= h($comic[0]["likes"]); ?></span></div>
                 <div class="rank">
                   <h2>１位</h2>
                   <div class="post-fb">
@@ -876,10 +859,8 @@ $lib_comic = $stmt->fetchAll();
                       </div>
                     </div>
                     <div class="post-fi title">
-                      <div>
-                        <h3><?= h($comic[0]["title"]); ?></h3>
-                        <p><?= h($comic[0]["author"]); ?></p>
-                      </div>
+                      <h3><?= h($comic[0]["title"]); ?></h3>
+                      <p><?= h($comic[0]["author"]); ?></p>
                     </div>
                   </div>
                   <div class="desc-wrapper">
@@ -907,10 +888,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($comic[1]["title"]); ?></h3>
-                          <p><?= h($comic[1]["author"]); ?></p>
-                        </div>
+                        <h3><?= h($comic[1]["title"]); ?></h3>
+                        <p><?= h($comic[1]["author"]); ?></p>
                       </div>
                     </div>
                     <div class="desc-wrapper">
@@ -939,10 +918,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($comic[2]["title"]); ?></h3>
-                          <p><?= h($comic[2]["author"]); ?></p>
-                        </div>
+                        <h3><?= h($comic[2]["title"]); ?></h3>
+                        <p><?= h($comic[2]["author"]); ?></p>
                       </div>
                     </div>
                     <div class="desc-wrapper">
@@ -1005,10 +982,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($post["title"]); ?></h3>
-                          <p><?= h($post["author"]); ?></p>
-                          <a href="delete.php?lib_id=<?= h($post["id"]); ?>" class="lib-del">
+                        <h3><?= h($post["title"]); ?></h3>
+                        <p><?= h($post["author"]); ?></p>
                             登録を解除する
                           </a>
                         </div>
@@ -1061,10 +1036,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($post["title"]); ?></h3>
-                          <p><?= h($post["author"]); ?></p>
-                          <a href="delete.php?lib_id=<?= h($post["id"]); ?>" class="lib-del">
+                        <h3><?= h($post["title"]); ?></h3>
+                        <p><?= h($post["author"]); ?></p>
                             登録を解除する
                           </a>
                         </div>
@@ -1117,10 +1090,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($post["title"]); ?></h3>
-                          <p><?= h($post["author"]); ?></p>
-                          <a href="delete.php?lib_id=<?= h($post["id"]); ?>" class="lib-del">
+                        <h3><?= h($post["title"]); ?></h3>
+                        <p><?= h($post["author"]); ?></p>
                             登録を解除する
                           </a>
                         </div>
@@ -1173,10 +1144,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($post["title"]); ?></h3>
-                          <p><?= h($post["author"]); ?></p>
-                          <a href="delete.php?lib_id=<?= h($post["id"]); ?>" class="lib-del">
+                        <h3><?= h($post["title"]); ?></h3>
+                        <p><?= h($post["author"]); ?></p>
                             登録を解除する
                           </a>
                         </div>
@@ -1229,10 +1198,8 @@ $lib_comic = $stmt->fetchAll();
                         </div>
                       </div>
                       <div class="post-fi title">
-                        <div>
-                          <h3><?= h($post["title"]); ?></h3>
-                          <p><?= h($post["author"]); ?></p>
-                          <a href="delete.php?lib_id=<?= h($post["id"]); ?>" class="lib-del">
+                        <h3><?= h($post["title"]); ?></h3>
+                        <p><?= h($post["author"]); ?></p>
                             登録を解除する
                           </a>
                         </div>
@@ -1258,7 +1225,7 @@ $lib_comic = $stmt->fetchAll();
   </div>
 </main>
 <footer>
-  <p>© sample sample</p>
+  <p>Copyright Kenta All right reserved.</p>
 </footer>
 <script src="js/posts.js"></script>
 </body>

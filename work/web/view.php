@@ -186,18 +186,6 @@ $like = $stmt->fetch();
     <?php if(!empty($successed)): ?>
       <div class="successed">ライブラリに登録しました</div>
     <?php endif; ?>
-    <a href="ranking.php" class="more">
-      ランキングに戻る
-      <span class="material-icons">
-        keyboard_arrow_right
-      </span>
-    </a>
-    <a href="posts_list.php" class="more">
-      一覧に戻る
-      <span class="material-icons">
-        keyboard_arrow_right
-      </span>
-    </a>
     <div class="category">
       <h1>
         <?php if(h($posts[0]["category"]) === "busi"): ?>
@@ -217,160 +205,159 @@ $like = $stmt->fetch();
         <?php endif; ?>
       </h1>
     </div>
-    <div class="profile">
-      <div class="view-detail">
-          <?php if($member["picture"]): ?>
-            <?php if($s3Api): ?>
-              <img src="<?= h(get_mem($member["picture"])); ?>">
-            <?php else: ?>
-              <img src="member_img/<?= h($member["picture"]); ?>">
-            <?php endif ?>
-          <?php else: ?>
-            <img src="img/select_none.jpg">
-          <?php endif; ?>
-        <h1><?= h($member["name"]); ?></h1>
-      </div>
-
-      <!-- likeボタン -->
-      <label class="likes">
-        <input type="hidden" id="member_id" value="<?= h($_SESSION["id"]); ?>">
-        <input type="hidden" id="post_id" value="<?= h($posts[0]["post_id"]); ?>">
-        <?php if(empty($like)): ?>
-          <input type="checkbox" id="likes">
-        <?php else: ?>
-          <input type="checkbox" checked  id="likes">
-        <?php endif; ?>
-        <i class="material-icons heart">favorite</i>
-        <div class="ripple" id="favorite"></div>
-        <span id="like-num"><?= h($posts[0]["likes"]) ?></span>
-      </label>
-
-    </div>
-    <div class="tab">
-      <ul>
-        <li class="active" data-id="one">1位</li>
-        <li data-id="two">2位</li>
-        <li data-id="three">3位</li>
-      </ul>
-    </div>
-    <div class="rank content active" id="one">
-      <h2>１位</h2>
-      <div class="post-fb">
-        <div class="post-fi image">
-          <div id="rank1">
-            <?php if(isset($posts[0]["picture"])): ?>
+    <div class="myp-wrapper">
+      <div class="profile">
+        <div class="view-detail">
+            <?php if($member["picture"]): ?>
               <?php if($s3Api): ?>
-                <img src="<?= h(get_pos($posts[0]["picture"])); ?>">
+                <img src="<?= h(get_mem($member["picture"])); ?>">
               <?php else: ?>
-                <img src="post_img/<?= $posts[0]["picture"]; ?>">
-              <?php endif; ?>
+                <img src="member_img/<?= h($member["picture"]); ?>">
+              <?php endif ?>
             <?php else: ?>
-              <img src="img/no-image.png">
+              <img src="img/select_none.jpg">
             <?php endif; ?>
+          <h1><?= h($member["name"]); ?></h1>
+        </div>
+  
+        <!-- likeボタン -->
+        <label class="likes">
+          <input type="hidden" id="member_id" value="<?= h($_SESSION["id"]); ?>">
+          <input type="hidden" id="post_id" value="<?= h($posts[0]["post_id"]); ?>">
+          <?php if(empty($like)): ?>
+            <input type="checkbox" id="likes">
+          <?php else: ?>
+            <input type="checkbox" checked  id="likes">
+          <?php endif; ?>
+          <i class="material-icons heart">favorite</i>
+          <div class="ripple" id="favorite"></div>
+          <span id="like-num"><?= h($posts[0]["likes"]) ?></span>
+        </label>
+  
+      </div>
+      <div class="tab">
+        <ul>
+          <li class="active" data-id="one">1位</li>
+          <li data-id="two">2位</li>
+          <li data-id="three">3位</li>
+        </ul>
+        <div class="rank content active" id="one">
+          <div class="post-fb">
+            <div class="post-fi image">
+              <div id="rank1">
+                <?php if(isset($posts[0]["picture"])): ?>
+                  <?php if($s3Api): ?>
+                    <img src="<?= h(get_pos($posts[0]["picture"])); ?>">
+                  <?php else: ?>
+                    <img src="post_img/<?= $posts[0]["picture"]; ?>">
+                  <?php endif; ?>
+                <?php else: ?>
+                  <img src="img/no-image.png">
+                <?php endif; ?>
+              </div>
+            </div>
+            <div class="post-fi title">
+              <div>
+                <h3><?= h($posts[0]["title"]); ?></h3>
+                <p><?= h($posts[0]["author"]); ?></p>
+                <form action="" method="post">
+                  <input type="hidden" name="rank1">
+                  <input type="submit" value="ライブラリに登録する">
+                  <?php if($error["library1"] === "duplicate"): ?>
+                    <p class="error">*この本は既に登録されています</p>
+                  <?php endif; ?>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="desc-wrapper">
+            <h3>説明</h3>
+            <div class="desc">
+              <p><?= h($posts[0]["description"]); ?></p>
+            </div>
           </div>
         </div>
-        <div class="post-fi title">
-          <div>
-            <h3><?= h($posts[0]["title"]); ?></h3>
-            <p><?= h($posts[0]["author"]); ?></p>
-            <form action="" method="post">
-              <input type="hidden" name="rank1">
-              <input type="submit" value="ライブラリに登録する">
-              <?php if($error["library1"] === "duplicate"): ?>
-                <p class="error">*この本は既に登録されています</p>
-              <?php endif; ?>
-            </form>
-          </div>
+        <div class="rank content" id="two">
+          <?php if($posts[1]["title"] !== ""): ?>
+            <div class="post-fb">
+              <div class="post-fi image">
+                <div id="rank2">
+                  <?php if(isset($posts[1]["picture"])): ?>
+                    <?php if($s3Api): ?>
+                      <img src="<?= h(get_pos($posts[1]["picture"])); ?>">
+                    <?php else: ?>
+                      <img src="post_img/<?= $posts[1]["picture"]; ?>">
+                    <?php endif; ?>
+                  <?php else: ?>
+                    <img src="img/no-image.png">
+                  <?php endif; ?>
+                </div>
+              </div>
+              <div class="post-fi title">
+                <div>
+                  <h3><?= h($posts[1]["title"]); ?></h3>
+                  <p><?= h($posts[1]["author"]); ?></p>
+                  <form action="" method="post">
+                    <input type="hidden" name="rank2">
+                    <input type="submit" value="ライブラリに登録する">
+                    <?php if($error["library2"] === "duplicate"): ?>
+                      <p class="error">*この本は既に登録されています</p>
+                    <?php endif; ?>
+                </form>
+                </div>
+              </div>
+            </div>
+            <div class="desc-wrapper">
+              <h3>説明</h3>
+              <div class="desc">
+                <p><?= h($posts[1]["description"]); ?></p>
+              </div>
+            </div>
+          <?php else: ?>
+            <div class="nothing">投稿がありません</div>
+          <?php endif; ?>
+        </div>
+        <div class="rank content" id="three">
+          <?php if($posts[2]["title"] !== ""): ?>
+            <div class="post-fb">
+              <div class="post-fi image">
+                <div id="rank3">
+                  <?php if(isset($posts[2]["picture"])): ?>
+                    <?php if($s3Api): ?>
+                      <img src="<?= h(get_pos($posts[2]["picture"])); ?>">
+                    <?php else: ?>
+                      <img src="post_img/<?= $posts[2]["picture"]; ?>">
+                    <?php endif; ?>
+                  <?php else: ?>
+                    <img src="img/no-image.png">
+                  <?php endif; ?>
+                </div>
+              </div>
+              <div class="post-fi title">
+                <div>
+                  <h3><?= h($posts[2]["title"]); ?></h3>
+                  <p><?= h($posts[2]["author"]); ?></p>
+                  <form action="" method="post">
+                    <input type="hidden" name="rank3">
+                    <input type="submit" value="ライブラリに登録する">
+                    <?php if($error["library3"] === "duplicate"): ?>
+                      <p class="error">*この本は既に登録されています</p>
+                    <?php endif; ?>
+                </form>
+                </div>
+              </div>
+            </div>
+            <div class="desc-wrapper">
+              <h3>説明</h3>
+              <div class="desc">
+                <p><?= h($posts[2]["description"]); ?></p>
+              </div>
+            </div>
+          <?php else: ?>
+            <div class="nothing">投稿がありません</div>
+          <?php endif; ?>
         </div>
       </div>
-      <div class="desc-wrapper">
-        <h3>説明</h3>
-        <div class="desc">
-          <p><?= h($posts[0]["description"]); ?></p>
-        </div>
-      </div>
-    </div>
-    <div class="rank content" id="two">
-      <?php if($posts[1]["title"] !== ""): ?>
-        <h2>２位</h2>
-        <div class="post-fb">
-          <div class="post-fi image">
-            <div id="rank2">
-              <?php if(isset($posts[1]["picture"])): ?>
-                <?php if($s3Api): ?>
-                  <img src="<?= h(get_pos($posts[1]["picture"])); ?>">
-                <?php else: ?>
-                  <img src="post_img/<?= $posts[1]["picture"]; ?>">
-                <?php endif; ?>
-              <?php else: ?>
-                <img src="img/no-image.png">
-              <?php endif; ?>
-            </div>
-          </div>
-          <div class="post-fi title">
-            <div>
-              <h3><?= h($posts[1]["title"]); ?></h3>
-              <p><?= h($posts[1]["author"]); ?></p>
-              <form action="" method="post">
-                <input type="hidden" name="rank2">
-                <input type="submit" value="ライブラリに登録する">
-                <?php if($error["library2"] === "duplicate"): ?>
-                  <p class="error">*この本は既に登録されています</p>
-                <?php endif; ?>
-            </form>
-            </div>
-          </div>
-        </div>
-        <div class="desc-wrapper">
-          <h3>説明</h3>
-          <div class="desc">
-            <p><?= h($posts[1]["description"]); ?></p>
-          </div>
-        </div>
-      <?php else: ?>
-        <div class="nothing">投稿がありません</div>
-      <?php endif; ?>
-    </div>
-    <div class="rank content" id="three">
-      <?php if($posts[2]["title"] !== ""): ?>
-        <h2>３位</h2>
-        <div class="post-fb">
-          <div class="post-fi image">
-            <div id="rank3">
-              <?php if(isset($posts[2]["picture"])): ?>
-                <?php if($s3Api): ?>
-                  <img src="<?= h(get_pos($posts[2]["picture"])); ?>">
-                <?php else: ?>
-                  <img src="post_img/<?= $posts[2]["picture"]; ?>">
-                <?php endif; ?>
-              <?php else: ?>
-                <img src="img/no-image.png">
-              <?php endif; ?>
-            </div>
-          </div>
-          <div class="post-fi title">
-            <div>
-              <h3><?= h($posts[2]["title"]); ?></h3>
-              <p><?= h($posts[2]["author"]); ?></p>
-              <form action="" method="post">
-                <input type="hidden" name="rank3">
-                <input type="submit" value="ライブラリに登録する">
-                <?php if($error["library3"] === "duplicate"): ?>
-                  <p class="error">*この本は既に登録されています</p>
-                <?php endif; ?>
-            </form>
-            </div>
-          </div>
-        </div>
-        <div class="desc-wrapper">
-          <h3>説明</h3>
-          <div class="desc">
-            <p><?= h($posts[2]["description"]); ?></p>
-          </div>
-        </div>
-      <?php else: ?>
-        <div class="nothing">投稿がありません</div>
-      <?php endif; ?>
     </div>
   </main>
   <script src="js/view.js"></script>

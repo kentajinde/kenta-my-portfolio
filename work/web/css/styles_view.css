@@ -28,7 +28,6 @@ main{
   text-align: start;
   display: flex;
   flex: unset;
-  padding: 0 40px;
 }
 
 /* ハートアイコン */
@@ -49,7 +48,9 @@ main{
   width: 50px;
   height: 50px;
   cursor: pointer;
+  margin-left: 55px;
   position: relative;
+  top: 23px;
 }
 .likes:hover{
   background: #e2e2e2;
@@ -103,6 +104,7 @@ main{
 #like-num{
   position: absolute;
   left:62px;
+  top: 4px;
 }
 
 .category{
@@ -136,6 +138,15 @@ input[type="submit"]{
   padding-bottom: 50px;
   border-bottom: none;
 }
+.post-fb{
+  display: flex;
+}
+.post-fi.title h3{
+  font-size: 18px;
+}
+.post-fi.title p{
+  font-size: 1.38vw;
+}
 .content.active{
   padding: 30px 25px;
 }
@@ -148,13 +159,34 @@ input[type="submit"]{
   letter-spacing: 5px;
 }
 
+
+/* small screen */
+@media (min-width: 500px){
+  .profile{
+    justify-content: center;
+  }
+  .likes{
+    margin-left: 110px;
+  }
+}
+
+
 /* medium screen */
 @media (min-width: 768px){
+  .navbar .nav-item:first-child .nav-link{
+    border-bottom: unset;
+  }
+  .navbar .nav-item:first-child .nav-link:hover{
+    border-bottom: solid 2px #656565;
+  }
   main{
     padding-bottom: 40px;
   }
   .more{
     padding-top: 40px;
+  }
+  .profile{
+    margin-bottom: 60px;
   }
   .profile img{
     width: 140px;
@@ -165,7 +197,9 @@ input[type="submit"]{
     padding-top: 49px;
   }
   .likes{
-    margin: auto;
+    margin: auto 0;
+    margin-left: 210px;
+    top: -5px;
   }
   #like-num{
     left: 80px;
@@ -182,6 +216,13 @@ input[type="submit"]{
 
 /* large screen */
 @media (min-width: 1100px){
+  .profile{
+    padding: 100px 100px 140px;
+  }
+  .profile h1{
+    font-size: 22px;
+    padding-top: 60px;
+  }
   .profile .heart{
     font-size: 55px;
   }
@@ -191,9 +232,15 @@ input[type="submit"]{
   .likes{
     width: 65px;
     height: 65px;
+    top: 50px;
+    left: 74px;
+    margin-left: 0;
   }
   .likes::after{
     top: 60px;
+  }
+  #like-num{
+    top: 15px;
   }
   .content.active{
     padding: 30px 100px;

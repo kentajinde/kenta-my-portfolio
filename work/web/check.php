@@ -102,7 +102,7 @@ if(!empty($_POST)){
     <img src="img/check_image.png" class="owl">
   </div>
   <footer>
-    <p>© sample sample</p>
+    <p>Copyright Kenta All right reserved.</p>
   </footer>
 
   <script src="js/check.js"></script>

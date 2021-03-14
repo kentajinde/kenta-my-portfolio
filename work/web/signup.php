@@ -130,7 +130,7 @@ if($_REQUEST["action"] === "rewrite" && isset($_SESSION["join"])){
     </div>
   </main>
   <footer>
-    <p>© sample sample</p>
+    <p>Copyright Kenta All right reserved.</p>
   </footer>
 </body>
 </html>

@@ -29,6 +29,9 @@ main > h1{
   margin-bottom: 25px;
   text-align: center;
 }
+.post-fb{
+  display: flex;
+}
 .post-fi.image{
   flex: 1;
 }
@@ -79,12 +82,15 @@ input[type="file"]{
 }
 .post-fi.title{
   padding-top: 20px;
+  padding-left: 13px;
   flex: 1;
-  text-align: center;
 }
 .post-fi.title h3{
-  font-size: 22px;
+  font-size: 16px;
   line-height: 1.3;
+}
+.post-fi.title p{
+  font-size: 14px;
 }
 .desc-wrapper{
   padding-top: 15px;
@@ -122,9 +128,6 @@ input[type="submit"]{
   main{
     padding-right: 40px;
     padding-left: 40px;
-  }
-  .post-fb{
-    display: flex;
   }
   .post-fi img{
     width: 200px;

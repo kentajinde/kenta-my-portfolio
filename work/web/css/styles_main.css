@@ -203,6 +203,7 @@ main{
 .member-pro{
   text-align: center;
   display: flex;
+  margin-bottom: 25px;
 }
 .member-pro img{
   width: 50px;
@@ -250,7 +251,7 @@ main{
 .content-desc h3{
   font-size: 15px;
   font-weight: bold;
-  height: 30px;
+  height: 35px;
   overflow: hidden;
 }
 .content-desc h4{
@@ -389,12 +390,10 @@ main{
 }
 .main-detail{
   display: flex;
-  justify-content: space-between;
-  padding-right: 130px;
-  flex: auto;
 }
 .heart-box{
   position: relative;
+  margin-left: 60px;
 }
 .heart-box i{
   color: red;
@@ -426,7 +425,14 @@ main{
 .top-link span{
   position: absolute;
 }
-/* common screen */
+
+/* small screen */
+@media (min-width: 500px){
+  .member-pro{
+    margin-bottom: 30px;
+    padding: 0 20px;
+  }
+}
 
 /* medium screen */
 @media (min-width: 768px){
@@ -510,7 +516,7 @@ main{
     padding-top: 30px;
   }
   .posts:hover {
-    transform: scale(1.15);
+    transform: scale(1.03);
     box-shadow: 0px 8px 18px 6px rgb(0, 0, 0, 0.2);
   }
   .swiper-button-prev:after, .swiper-button-next:after{
@@ -555,9 +561,6 @@ main{
   }
 
   /* 投稿一覧 */
-  .posts:hover{
-    transform: scale(1.2);
-  }
   .wrapper-main.category{
     margin-bottom: 100px;
     padding: 20px 180px;
