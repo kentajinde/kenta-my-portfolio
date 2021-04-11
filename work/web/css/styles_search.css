@@ -48,6 +48,12 @@ header{
 .nav-pc{
   display: none;
 }
+.navbar .nav-item:nth-child(4) .nav-link{
+  border-bottom: solid 2px #656565;
+}
+.navbar .nav-item:nth-child(4) .nav-link:hover{
+  opacity: unset;
+}
 
 /* ハンバーガーメニュー */
 input[type="checkbox"]{
