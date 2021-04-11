@@ -57,7 +57,7 @@ if(!empty($_POST)){
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="お気に入りの本をシェアするWebサイトです。">
-  <title>未定</title>
+  <title>Best Book</title>
 
   <!-- 自作css -->
   <link rel ="stylesheet" href="css/styles_check.css">

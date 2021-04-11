@@ -1,4 +1,4 @@
 <?php
 
-header("Location: work/web/home.php");
+header("Location: work/web/home.html");
 exit();

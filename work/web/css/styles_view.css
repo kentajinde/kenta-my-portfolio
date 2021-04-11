@@ -210,7 +210,7 @@ input[type="submit"]{
     font-size: 14px;
   }
   .content.active{
-    padding: 30px 70px;
+    padding: 60px 70px;
   }
 }
 
@@ -243,6 +243,6 @@ input[type="submit"]{
     top: 15px;
   }
   .content.active{
-    padding: 30px 100px;
+    padding: 60px 100px;
   }
 }

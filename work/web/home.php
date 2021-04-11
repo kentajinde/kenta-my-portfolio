@@ -1,7 +1,3 @@
-<?php
-
-?>
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -81,11 +77,7 @@
       </div>
     </div>
   </main>
-  <footer>
-    <p>Copyright Kenta All right reserved.</p>
-  </footer>
-
-  <script src="js/home.js"></script>
-
-</body>
-</html>
+<?php
+  $js = "home.js";
+  require("footer.php");
+?>

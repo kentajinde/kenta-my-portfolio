@@ -40,19 +40,13 @@ if(!empty($_POST)){
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="お気に入りの本をシェアするWebサイトです。">
-  <title>未定</title>
+  <title>Best Book</title>
 
   <!-- 自作css -->
   <link rel ="stylesheet" href="css/styles_login.css">
 
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-
-  <!-- React -->
-  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-  <!-- for demo -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <!-- Google icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -109,8 +103,4 @@ if(!empty($_POST)){
       </div>
     </div>
   </main>
-  <footer>
-    <p>Copyright Kenta All right reserved.</p>
-  </footer>
-</body>
-</html>
+<?php require("footer.php"); ?>
