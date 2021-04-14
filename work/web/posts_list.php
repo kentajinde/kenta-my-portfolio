@@ -1,9 +1,10 @@
 <?php
 session_start();
-
 require("../app/functions.php");
 require("../app/dbconnect.php");
 require("../app/upload.php");
+
+shutOut();
 
 // メンバー情報、投稿情報、投稿内容の配列
 $ranking = null;

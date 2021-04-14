@@ -1,5 +1,8 @@
 <?php
   session_start();
+  require("../app/functions.php");
+
+  shutOut();
 
   if($_POST["word"]){
     $_SESSION["word"] = $_POST["word"];

@@ -1,10 +1,11 @@
 <?php
-
+session_start();
 require("../app/functions.php");
 require("../app/dbconnect.php");
 require("../app/upload.php");
 
-session_start();
+shutOut();
+
 
 //post_id
 $id = $_REQUEST["id"];

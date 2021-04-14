@@ -1,19 +1,15 @@
 <?php
-
+session_start();
 require("../app/functions.php");
 require("../app/dbconnect.php");
 require("../app/upload.php");
 
-session_start();
 
-if(isset($_SESSION["id"])){
-  $stmt = $pdo->prepare("SELECT * FROM members WHERE id=?");
-  $stmt->execute([$_SESSION["id"]]);
-  $member = $stmt->fetch();
-}else{
-  header("Location: login.php");
-  exit();
-}
+shutOut();
+
+$stmt = $pdo->prepare("SELECT * FROM members WHERE id=?");
+$stmt->execute([$_SESSION["id"]]);
+$member = $stmt->fetch();
 
 // 投稿一覧
 $stmt = $pdo->query("SELECT * FROM posts ORDER BY created DESC, member_id LIMIT 10");
@@ -77,7 +73,10 @@ require("header.php");
     </div>
     <p>あなたのおススメの本を紹介してください</p>
   </div>
+
   <div class="horizon"></div>
+
+  <!-- 投稿一覧 -->
   <div class="wrapper-main list">
     <h1>みなさんの投稿</h1>
     <div class="swiper-container">
@@ -99,57 +98,25 @@ require("header.php");
                   <p><?= h($post["member"]["name"]); ?>さん</p>
                 </div>
                 <div class="post-list">
-                  <div class="post">
-                    <div class="post-img rank1">
-                      <?php if($post["content"][0]["picture"]): ?>
-                        <?php if($s3Api): ?>
-                          <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                  <?php foreach($post["content"] as $index => $content): ?>
+                    <div class="post">
+                      <div class="post-img rank<?= $index + 1; ?>">
+                        <?php if($post["content"][0]["picture"]): ?>
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_pos($content["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="post_img/<?= h($content["picture"]); ?>">
+                          <?php endif; ?>
                         <?php else: ?>
-                          <img src="post_img/<?= h($post["content"][0]["picture"]); ?>">
+                          <img src="img/no-image.png">
                         <?php endif; ?>
-                      <?php else: ?>
-                        <img src="img/no-image.png">
-                      <?php endif; ?>
+                      </div>
+                      <div class="content-desc">
+                        <h3><?= h($content["title"]); ?></h3>
+                        <h4><?= h($content["author"]); ?></h4>
+                      </div>
                     </div>
-                    <div class="content-desc">
-                      <h3><?= h($post["content"][0]["title"]); ?></h3>
-                      <h4><?= h($post["content"][0]["author"]); ?></h4>
-                    </div>
-                  </div>
-                  <div class="post">
-                    <div class="post-img rank2">
-                      <?php if($post["content"][1]["picture"]): ?>
-                        <?php if($s3Api): ?>
-                          <img src="<?= h(get_pos($post["content"][1]["picture"])) ?>">
-                        <?php else: ?>
-                          <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
-                        <?php endif; ?>
-                      <?php else: ?>
-                        <img src="img/no-image.png">
-                      <?php endif; ?>
-                    </div>
-                    <div class="content-desc">
-                      <h3><?= h($post["content"][1]["title"]); ?></h3>
-                      <h4><?= h($post["content"][1]["author"]); ?></h4>
-                    </div>
-                  </div>
-                  <div class="post">
-                    <div class="post-img rank3">
-                      <?php if($post["content"][2]["picture"]): ?>
-                        <?php if($s3Api): ?>
-                          <img src="<?= h(get_pos($post["content"][2]["picture"])) ?>">
-                        <?php else: ?>
-                          <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
-                        <?php endif; ?>
-                      <?php else: ?>
-                        <img src="img/no-image.png">
-                      <?php endif; ?>
-                    </div>
-                    <div class="content-desc">
-                      <h3><?= h($post["content"][2]["title"]); ?></h3>
-                      <h4><?= h($post["content"][2]["author"]); ?></h4>
-                    </div>
-                  </div>
+                  <?php endforeach; ?>
                 </div>
               </a>
             </li>
@@ -169,17 +136,19 @@ require("header.php");
       </span>
     </a>
   </div>
+
   <div class="horizon"></div>
+
+  <!-- 総合ランキング -->
   <div class="wrapper-main ranklist">
     <h1>総合ランキング</h1>
     <div class="swiper-container ranking">
       <?php if(!empty($list)): ?>
         <ul class="swiper-wrapper">
-          <?php foreach($ranking AS $post): ?>
+          <?php foreach($ranking as $index => $post): ?>
             <li class="posts swiper-slide">
               <a href="view.php?id=<?= h($post["post"]["id"]); ?>">
-                <?php $counter++; ?>
-                <span class="square">#<?= $counter; ?></span>
+                <span class="square">#<?= $index + 1; ?></span>
                 <span class="triangle"></span>
                 <div class="member-pro">
                   <?php if($post["member"]["picture"]): ?>
@@ -200,57 +169,25 @@ require("header.php");
                   </div>
                 </div>
                 <div class="post-list">
-                  <div class="post">
-                    <div class="post-img rank1">
-                      <?php if($post["content"][0]["picture"]): ?>
-                        <?php if($s3Api): ?>
-                          <img src="<?= h(get_pos($post["content"][0]["picture"])); ?>">
+                  <?php foreach($post["content"] as $index => $content): ?>
+                    <div class="post">
+                      <div class="post-img rank<?= $index + 1; ?>">
+                        <?php if($content["picture"]): ?>
+                          <?php if($s3Api): ?>
+                            <img src="<?= h(get_pos($content["picture"])); ?>">
+                          <?php else: ?>
+                            <img src="post_img/<?= h($content["picture"]) ?>">
+                          <?php endif; ?>
                         <?php else: ?>
-                          <img src="post_img/<?= h($post["content"][0]["picture"]) ?>">
+                          <img src="img/no-image.png">
                         <?php endif; ?>
-                      <?php else: ?>
-                        <img src="img/no-image.png">
-                      <?php endif; ?>
+                      </div>
+                      <div class="content-desc">
+                        <h3><?= h($content["title"]); ?></h3>
+                        <h4><?= h($content["author"]); ?></h4>
+                      </div>
                     </div>
-                    <div class="content-desc">
-                      <h3><?= h($post["content"][0]["title"]); ?></h3>
-                      <h4><?= h($post["content"][0]["author"]); ?></h4>
-                    </div>
-                  </div>
-                  <div class="post">
-                    <div class="post-img rank2">
-                      <?php if($post["content"][1]["picture"]): ?>
-                        <?php if($s3Api): ?>
-                          <img src="<?= h(get_pos($post["content"][1]["picture"])); ?>">
-                        <?php else: ?>
-                          <img src="post_img/<?= h($post["content"][1]["picture"]) ?>">
-                        <?php endif; ?>
-                      <?php else: ?>
-                        <img src="img/no-image.png">
-                      <?php endif; ?>
-                    </div>
-                    <div class="content-desc">
-                      <h3><?= h($post["content"][1]["title"]); ?></h3>
-                      <h4><?= h($post["content"][1]["author"]); ?></h4>
-                    </div>
-                  </div>
-                  <div class="post">
-                    <div class="post-img rank3">
-                      <?php if($post["content"][2]["picture"]): ?>
-                        <?php if($s3Api): ?>
-                          <img src="<?= h(get_pos($post["content"][2]["picture"])); ?>">
-                        <?php else: ?>
-                          <img src="post_img/<?= h($post["content"][2]["picture"]) ?>">
-                        <?php endif; ?>
-                      <?php else: ?>
-                        <img src="img/no-image.png">
-                      <?php endif; ?>
-                    </div>
-                    <div class="content-desc">
-                      <h3><?= h($post["content"][2]["title"]); ?></h3>
-                      <h4><?= h($post["content"][2]["author"]); ?></h4>
-                    </div>
-                  </div>
+                  <?php endforeach; ?>
                 </div>
               </a>
             </li>
@@ -270,7 +207,9 @@ require("header.php");
       </span>
     </a>
   </div>
+
   <div class="horizon"></div>
+  
   <div class="wrapper-main category">
     <h1>カテゴリーランキング</h1>
     <ul>

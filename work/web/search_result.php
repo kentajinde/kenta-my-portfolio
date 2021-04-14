@@ -4,6 +4,8 @@
   require("../app/dbconnect.php");
   require("../app/upload.php");
 
+  shutOut();
+
   $title = $_SESSION["word"];
   $word = "%" . $_SESSION["word"] . "%";
 

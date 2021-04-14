@@ -20,6 +20,7 @@ main{
 .profile{
   padding: 40px 0;
   display: flex;
+  justify-content: space-around;
 }
 .profile img{
   width: 120px;
@@ -29,7 +30,6 @@ main{
 }
 .detail{
   text-align: center;
-  flex: 1;
 }
 .detail h1{
   font-size: 22px;
@@ -545,7 +545,7 @@ input[type="submit"]{
     margin-top: 20px;
     font-size: 18px;
   }
-  .post-rank p{
+  .post-rank p:first-child{
     font-size: 20px;
     margin-bottom: 30px;
   }
